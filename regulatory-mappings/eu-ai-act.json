@@ -1,9 +1,256 @@
 {
+  "_schema": "nextrial-regulatory-mapping/1.0",
+  "_document": "eu-ai-act.json",
+  "_version": "1.0",
+  "_last_verified": "2026-05-01",
+  "_note": "AI-Assisted — Human Review Required. EU AI Act 2024/1689 entered into force August 1, 2024, with phased applicability. Prohibited AI practices apply from February 2025. High-risk AI obligations apply from August 2026. Verify current applicability dates with EU legal counsel.",
+
   "jurisdiction": "EU",
-  "regulatory_body": "European Commission",
-  "regulation": "EU AI Act 2024/1689",
-  "version": "1.0",
-  "last_verified": "2026-05-01",
-  "articles": [],
-  "_note": "PLACEHOLDER — paste full content from Priority 1 output"
+  "regulatory_body": "European Commission / National Market Surveillance Authorities",
+  "regulation": "Regulation (EU) 2024/1689 — Artificial Intelligence Act",
+  "citation_short": "EU AI Act",
+  "country_code": "EU",
+
+  "applicability": {
+    "entry_into_force": "2024-08-01",
+    "prohibited_practices_applicable": "2025-02-02",
+    "gpai_obligations_applicable": "2025-08-02",
+    "high_risk_ai_obligations_applicable": "2026-08-02",
+    "full_applicability": "2027-08-02",
+    "note": "Clinical trial AI systems are likely classified as high-risk AI under Annex III. Full high-risk AI obligations apply from August 2026. Prepare now — the audit trail and documentation requirements are retroactive to the point of deployment."
+  },
+
+  "clinical_trial_ai_classification": {
+    "likely_category": "High-Risk AI System",
+    "annex_iii_basis": "Annex III, Point 5(a) — AI systems intended to be used in the safety component of medical devices, or as medical devices themselves",
+    "additional_basis": "Annex III, Point 1(b) — AI systems used in critical digital infrastructure (if integrated with site management systems)",
+    "note": "Classification as high-risk AI is an assessment that must be made by the deploying organization with qualified legal counsel. This mapping assumes high-risk classification for AI systems used in clinical trial activation and eligibility determination. AI systems used solely for administrative tasks (scheduling, non-clinical logistics) may not be high-risk."
+  },
+
+  "articles": [
+    {
+      "id": "EU-001",
+      "article": "Article 9",
+      "title": "Risk Management System",
+      "gate_mapping": "RBQM Layer 0 — Pre-Verification",
+      "requirement_summary": "Providers of high-risk AI systems must establish and maintain a risk management system throughout the lifecycle of the AI system.",
+      "key_provisions": [
+        {
+          "article": "Art. 9(1)",
+          "requirement": "A risk management system shall be established, implemented, documented and maintained in relation to high-risk AI systems.",
+          "framework_mapping": "RBQM Pre-Verification Layer (RBQM-SPEC-001) — three-dimension risk classification (site, protocol, population) constitutes the risk management system for the activation phase.",
+          "severity_if_absent": "CRITICAL"
+        },
+        {
+          "article": "Art. 9(2)",
+          "requirement": "The risk management process shall include: identification and analysis of known and reasonably foreseeable risks; estimation and evaluation of risks; evaluation of other possibly arising risks based on post-market monitoring.",
+          "framework_mapping": "RBQM-SPEC-001 §4 — three risk dimensions with classification criteria and mitigation requirements",
+          "severity_if_absent": "CRITICAL"
+        },
+        {
+          "article": "Art. 9(4)",
+          "requirement": "Risk management measures shall give due consideration to the effects and possible interactions resulting from the combined application of requirements laid down in Articles 10 to 15.",
+          "framework_mapping": "Three-gate architecture integrates Art. 10-15 requirements sequentially",
+          "severity_if_absent": "WARNING"
+        },
+        {
+          "article": "Art. 9(e)",
+          "requirement": "The risk management system shall address risks that may emerge when the AI system is used as intended, including risks arising from interaction of the AI system with other systems or products.",
+          "framework_mapping": "RBQM-SPEC-001 §7 — dynamic risk reassessment triggers (v2.0 target — open question Q2)",
+          "severity_if_absent": "WARNING",
+          "open_question": "Q2 in co-development/open-questions.md — dynamic reassessment during execution is not fully specified in v1.0"
+        }
+      ]
+    },
+    {
+      "id": "EU-002",
+      "article": "Article 10",
+      "title": "Data and Data Governance",
+      "gate_mapping": "Gate 1 — CFM-1 Verification",
+      "requirement_summary": "Training, validation, and testing data for high-risk AI systems must meet quality criteria.",
+      "key_provisions": [
+        {
+          "article": "Art. 10(2)",
+          "requirement": "Data sets used for training, validation, and testing shall be subject to appropriate data governance and management practices covering: design choices, data collection, data preparation, examination of possible biases, identification of relevant gaps or shortcomings.",
+          "framework_mapping": "Gate 1 verification of AI system documentation — data governance practices must be documented",
+          "severity_if_absent": "WARNING",
+          "open_question": "Data governance documentation requirements for AI models used in clinical trial activation are not fully mapped in v1.0. This is an acknowledged gap from the Dominique Chesnais adversarial review."
+        },
+        {
+          "article": "Art. 10(5)",
+          "requirement": "To the extent strictly necessary, high-risk AI providers may process special categories of personal data (including health data) for bias monitoring, detection, and correction.",
+          "framework_mapping": "Zero PHI constraint — proof certificate framework does not process PHI; PPEE air-gap architecture",
+          "severity_if_absent": "INFO"
+        }
+      ]
+    },
+    {
+      "id": "EU-003",
+      "article": "Article 11",
+      "title": "Technical Documentation",
+      "gate_mapping": "Gate 1 + Gate 2 — Documentation artifacts",
+      "requirement_summary": "Providers of high-risk AI systems must draw up technical documentation before placing the system on the market.",
+      "key_provisions": [
+        {
+          "article": "Art. 11(1)",
+          "requirement": "Technical documentation must be drawn up before the AI system is placed on the market or put into service, and kept up-to-date. It must demonstrate that the system complies with requirements of Chapter III, Section 2.",
+          "framework_mapping": "This specification set constitutes the technical documentation for the open standard components. Production implementation documentation is proprietary (BOUNDARY.md).",
+          "severity_if_absent": "CRITICAL"
+        },
+        {
+          "article": "Annex IV",
+          "requirement": "Technical documentation must include: general description; description of elements of the system; information about the training methodology; details of pre-determined changes; validation and testing procedures; cybersecurity measures.",
+          "framework_mapping": "Three-gate architecture spec + adapter interface spec + proof certificate spec together address Annex IV documentation requirements for the verification layer",
+          "severity_if_absent": "CRITICAL"
+        }
+      ]
+    },
+    {
+      "id": "EU-004",
+      "article": "Article 12",
+      "title": "Record-Keeping",
+      "gate_mapping": "Proof Certificate — lineage and immutability",
+      "requirement_summary": "High-risk AI systems must be designed to automatically generate logs throughout their operation.",
+      "key_provisions": [
+        {
+          "article": "Art. 12(1)",
+          "requirement": "High-risk AI systems shall technically allow for the automatic recording of events ('logs') relevant to the identification of risks and substantial modifications throughout the system's lifetime.",
+          "framework_mapping": "Proof certificate audit trail — immutable, tamper-evident, bi-temporal (PC-SPEC-001 §5)",
+          "severity_if_absent": "CRITICAL"
+        },
+        {
+          "article": "Art. 12(2)",
+          "requirement": "Logging capabilities shall ensure a level of traceability of the AI system's functioning throughout its lifecycle that is appropriate to the intended purpose of the system.",
+          "framework_mapping": "Certificate lineage trace — four-property proof certificate enables complete reconstruction (PC-SPEC-001 §3.4)",
+          "severity_if_absent": "CRITICAL"
+        },
+        {
+          "article": "Art. 12(4)",
+          "requirement": "Deployers of high-risk AI systems shall retain the logs automatically generated by the high-risk AI system, to the extent such logs are under their control, for a period appropriate to the intended purpose.",
+          "framework_mapping": "PC-SPEC-001 §6 — retention requirements by jurisdiction",
+          "severity_if_absent": "WARNING"
+        }
+      ]
+    },
+    {
+      "id": "EU-005",
+      "article": "Article 13",
+      "title": "Transparency and Provision of Information to Deployers",
+      "gate_mapping": "Proof Certificate — Properties 1, 3, 4",
+      "requirement_summary": "High-risk AI systems must be sufficiently transparent to enable deployers to interpret and use the system's output appropriately.",
+      "key_provisions": [
+        {
+          "article": "Art. 13(1)",
+          "requirement": "High-risk AI systems shall be designed and developed in such a way to ensure that their operation is sufficiently transparent to enable deployers to interpret the system's output and use it appropriately.",
+          "framework_mapping": "Property 1 (Rule Invoked) + Property 3 (Verification Operation) — the human can see exactly what rule was applied and how the determination was reached",
+          "severity_if_absent": "CRITICAL"
+        },
+        {
+          "article": "Art. 13(3)(b)(ii)",
+          "requirement": "Instructions for use must include the level of accuracy, robustness and cybersecurity against which the high-risk AI system has been tested and validated and which can be expected.",
+          "framework_mapping": "Determinism requirement (ADAPTER-SPEC-001 §6) — the system is not probabilistic; accuracy is binary",
+          "severity_if_absent": "WARNING"
+        }
+      ]
+    },
+    {
+      "id": "EU-006",
+      "article": "Article 14",
+      "title": "Human Oversight",
+      "gate_mapping": "Gate 3 — Human Oversight Checkpoint",
+      "requirement_summary": "High-risk AI systems must be designed to allow effective human oversight during use.",
+      "key_provisions": [
+        {
+          "article": "Art. 14(1)",
+          "requirement": "High-risk AI systems shall be designed and developed in such a way, including with appropriate human-machine interface tools, that they can be effectively overseen by natural persons during the period in which the AI system is in use.",
+          "framework_mapping": "Gate 3 is structurally mandatory — no output reaches a human without the proof certificate establishing what was verified; override is always available",
+          "severity_if_absent": "CRITICAL"
+        },
+        {
+          "article": "Art. 14(4)(a)",
+          "requirement": "The oversight measures shall enable persons assigned to oversight to fully understand the capacities and limitations of the high-risk AI system.",
+          "framework_mapping": "Property 4 (Boundary Statement) — explicitly documents what the system did NOT check and what requires human judgment",
+          "severity_if_absent": "CRITICAL"
+        },
+        {
+          "article": "Art. 14(4)(c)",
+          "requirement": "The oversight measures shall enable persons assigned to oversight to be able to correctly interpret the high-risk AI system's output.",
+          "framework_mapping": "Proof certificate four-property structure is designed for interpretability by qualified humans, not AI specialists",
+          "severity_if_absent": "CRITICAL"
+        },
+        {
+          "article": "Art. 14(4)(e)",
+          "requirement": "The oversight measures shall enable persons assigned to oversight to be able to intervene on the operation of the high-risk AI system or interrupt it through a stop button or a similar procedure.",
+          "framework_mapping": "Gate 3 override protocol (SAID-SPEC-001 §5) — override is always available, always documented",
+          "severity_if_absent": "CRITICAL"
+        },
+        {
+          "article": "Art. 14(5)",
+          "requirement": "For high-risk AI systems referred to in Annex III, the deployer shall assign the oversight to natural persons having the necessary competence, training and authority.",
+          "framework_mapping": "SAID-SPEC-001 §3 — attestation levels require qualified investigators; credential and license verification documented",
+          "severity_if_absent": "CRITICAL"
+        }
+      ]
+    },
+    {
+      "id": "EU-007",
+      "article": "Article 17",
+      "title": "Quality Management System",
+      "gate_mapping": "Framework-level — architecture documentation",
+      "requirement_summary": "Providers of high-risk AI systems must establish a quality management system.",
+      "key_provisions": [
+        {
+          "article": "Art. 17(1)(d)",
+          "requirement": "The quality management system shall include the examination, test and validation procedures to be carried out before, during and after the development of the high-risk AI system.",
+          "framework_mapping": "Validation test harness (TEST-HARNESS-001) constitutes the open standard's validation procedures",
+          "severity_if_absent": "WARNING"
+        },
+        {
+          "article": "Art. 17(1)(f)",
+          "requirement": "The quality management system shall include measures for the identification and management of incidents including those involving serious incidents.",
+          "framework_mapping": "RBQM-SPEC-001 §7 — dynamic reassessment triggers include incident-driven reclassification",
+          "severity_if_absent": "WARNING"
+        }
+      ]
+    },
+    {
+      "id": "EU-008",
+      "article": "EU CTR 536/2014",
+      "title": "EU Clinical Trials Regulation",
+      "gate_mapping": "Gate 1 — supplementary verification",
+      "requirement_summary": "Governs clinical trials of medicinal products in the EU. Operates alongside EU AI Act for AI-assisted clinical trials.",
+      "key_provisions": [
+        {
+          "requirement": "Clinical trials must be registered in the EU Clinical Trials Information System (EUCTR) before initiation.",
+          "gate_1_check": "Verify EUCTR registration present",
+          "severity_if_absent": "CRITICAL"
+        },
+        {
+          "requirement": "Ethics committee approval must be obtained before trial initiation.",
+          "gate_1_check": "Verify ethics committee approval documentation present",
+          "severity_if_absent": "CRITICAL"
+        },
+        {
+          "requirement": "Informed consent must meet the requirements of Article 29 of the CTR.",
+          "gate_1_check": "Verify consent documentation satisfies CTR Art. 29 requirements",
+          "severity_if_absent": "CRITICAL"
+        }
+      ]
+    }
+  ],
+
+  "align_ai_relationship": {
+    "framework": "ALIGN-AI Framework for EU AI Act Conformity Assessment",
+    "inventor": "Brian Burke",
+    "relationship": "ALIGN-AI operates as upstream governance to the three-gate verification architecture. ALIGN-AI establishes the conformity assessment process at the organizational level; the three-gate architecture implements the technical verification requirements at the output level. The frameworks are complementary, not competitive.",
+    "note": "Brian Burke reviewed the proof certificate specification and noted its operational precision in addressing Articles 11/13/14."
+  },
+
+  "_changelog": [
+    {
+      "version": "1.0",
+      "date": "2026-05-01",
+      "changes": "Initial regulatory mapping — phased applicability dates noted"
+    }
+  ]
 }

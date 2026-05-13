@@ -1,8 +1,258 @@
 {
+  "_schema": "nextrial-regulatory-mapping/1.0",
+  "_document": "us-fda.json",
+  "_version": "1.0",
+  "_last_verified": "2026-05-01",
+  "_note": "AI-Assisted — Human Review Required. Citations verified against CFR as of last_verified date. Regulations change — verify current status before relying on this mapping.",
+
   "jurisdiction": "US",
   "regulatory_body": "FDA",
-  "version": "1.0",
-  "last_verified": "2026-05-01",
-  "regulations": [],
-  "_note": "PLACEHOLDER — paste full content from Priority 1 output"
+  "regulatory_body_full": "U.S. Food and Drug Administration",
+  "country_code": "US",
+
+  "regulations": [
+    {
+      "id": "US-001",
+      "citation": "21 CFR Part 11",
+      "title": "Electronic Records; Electronic Signatures",
+      "gate_mapping": "Gate 1 — CFM-1 Verification",
+      "relevance": "Governs electronic records and signatures in FDA-regulated clinical trials. Any AI-generated output stored as an electronic record must satisfy Part 11 requirements.",
+      "key_requirements": [
+        {
+          "section": "21 CFR 11.10(a)",
+          "requirement": "Systems used to create, modify, maintain, or transmit electronic records shall validate the system to ensure accuracy, reliability, consistent intended performance, and the ability to discern invalid or altered records.",
+          "gate_1_check": "Verify that AI output generation system has documented validation",
+          "severity_if_absent": "CRITICAL"
+        },
+        {
+          "section": "21 CFR 11.10(e)",
+          "requirement": "Use of secure, computer-generated, time-stamped audit trails to independently record the date and time of operator entries and actions that create, modify, or delete electronic records.",
+          "gate_1_check": "Verify proof certificate audit trail is tamper-evident and timestamped",
+          "severity_if_absent": "CRITICAL"
+        },
+        {
+          "section": "21 CFR 11.10(k)",
+          "requirement": "Use of appropriate controls over systems documentation including adequate controls over the distribution of, access to, and use of documentation for system operation and maintenance.",
+          "gate_1_check": "Verify system documentation access controls",
+          "severity_if_absent": "WARNING"
+        },
+        {
+          "section": "21 CFR 11.50",
+          "requirement": "Signed electronic records shall contain information associated with the signing including: printed name of the signer; date and time when the signature was executed; meaning of the signature.",
+          "gate_1_check": "Verify attestation records include required electronic signature elements",
+          "severity_if_absent": "CRITICAL"
+        }
+      ]
+    },
+    {
+      "id": "US-002",
+      "citation": "21 CFR Part 50",
+      "title": "Protection of Human Subjects",
+      "gate_mapping": "Gate 1 — CFM-1 Verification",
+      "relevance": "Governs informed consent. AI-generated informed consent documents and eligibility determinations must satisfy Part 50 requirements.",
+      "key_requirements": [
+        {
+          "section": "21 CFR 50.25(a)(1)",
+          "requirement": "A statement that the study involves research, an explanation of the purposes of the research and the expected duration of the subject's participation, a description of the procedures to be followed, and identification of any procedures which are experimental.",
+          "gate_1_check": "Verify required statement present in AI-generated informed consent",
+          "severity_if_absent": "CRITICAL"
+        },
+        {
+          "section": "21 CFR 50.25(a)(2)",
+          "requirement": "A description of any reasonably foreseeable risks or discomforts to the subject.",
+          "gate_1_check": "Verify risk/discomfort description present",
+          "severity_if_absent": "CRITICAL"
+        },
+        {
+          "section": "21 CFR 50.25(a)(3)",
+          "requirement": "A description of any benefits to the subject or to others which may reasonably be expected from the research.",
+          "gate_1_check": "Verify benefits description present",
+          "severity_if_absent": "CRITICAL"
+        },
+        {
+          "section": "21 CFR 50.25(a)(4)",
+          "requirement": "A disclosure of appropriate alternative procedures or courses of treatment, if any, that might be advantageous to the subject.",
+          "gate_1_check": "Verify alternatives disclosure present",
+          "severity_if_absent": "CRITICAL"
+        },
+        {
+          "section": "21 CFR 50.25(a)(5)",
+          "requirement": "A statement describing the extent, if any, to which confidentiality of records identifying the subject will be maintained.",
+          "gate_1_check": "Verify confidentiality statement present",
+          "severity_if_absent": "CRITICAL"
+        },
+        {
+          "section": "21 CFR 50.25(a)(6)",
+          "requirement": "For research involving more than minimal risk, an explanation as to whether any compensation and an explanation as to whether any medical treatments are available if injury occurs.",
+          "gate_1_check": "If greater than minimal risk: verify compensation/treatment statement present",
+          "severity_if_absent": "CRITICAL"
+        },
+        {
+          "section": "21 CFR 50.25(a)(7)",
+          "requirement": "An explanation of whom to contact for answers to pertinent questions about the research and research subjects' rights, and whom to contact in the event of a research-related injury to the subject.",
+          "gate_1_check": "Verify contact information present",
+          "severity_if_absent": "CRITICAL"
+        },
+        {
+          "section": "21 CFR 50.25(a)(8)",
+          "requirement": "A statement that participation is voluntary, refusal to participate will involve no penalty or loss of benefits to which the subject is otherwise entitled, and the subject may discontinue participation at any time without penalty or loss of benefits.",
+          "gate_1_check": "Verify voluntariness statement present",
+          "severity_if_absent": "CRITICAL"
+        }
+      ]
+    },
+    {
+      "id": "US-003",
+      "citation": "21 CFR Part 54",
+      "title": "Financial Disclosure by Clinical Investigators",
+      "gate_mapping": "Gate 1 — CFM-1 Verification",
+      "relevance": "Requires financial disclosure from clinical investigators. AI systems used in site qualification must verify disclosure compliance.",
+      "key_requirements": [
+        {
+          "section": "21 CFR 54.4",
+          "requirement": "Applicants must provide financial disclosure statements from clinical investigators or certify that the investigator had no disclosable financial interests.",
+          "gate_1_check": "Verify financial disclosure documentation present in site activation package",
+          "severity_if_absent": "WARNING"
+        }
+      ]
+    },
+    {
+      "id": "US-004",
+      "citation": "21 CFR Part 56",
+      "title": "Institutional Review Boards",
+      "gate_mapping": "Gate 1 — CFM-1 Verification",
+      "relevance": "Governs IRB composition, operations, and review procedures. AI-generated IRB submissions must satisfy Part 56 completeness requirements.",
+      "key_requirements": [
+        {
+          "section": "21 CFR 56.107",
+          "requirement": "Each IRB shall have at least five members, including members with varying backgrounds; at least one member whose primary concerns are in scientific areas; at least one member whose primary concerns are in nonscientific areas; at least one member who is not otherwise affiliated with the institution.",
+          "gate_1_check": "If IRB composition documentation submitted: verify membership requirements documented",
+          "severity_if_absent": "WARNING"
+        },
+        {
+          "section": "21 CFR 56.115",
+          "requirement": "IRB records include copies of all research proposals reviewed, approved consent documents, progress reports submitted by investigators, and reports of injuries to subjects.",
+          "gate_1_check": "Verify IRB submission package includes required documentation",
+          "severity_if_absent": "WARNING"
+        }
+      ]
+    },
+    {
+      "id": "US-005",
+      "citation": "21 CFR Part 312",
+      "title": "Investigational New Drug Application",
+      "gate_mapping": "Gate 1 — CFM-1 Verification",
+      "relevance": "Governs IND applications and clinical investigation of drugs. AI-generated regulatory documents for IND submissions must satisfy Part 312 requirements.",
+      "key_requirements": [
+        {
+          "section": "21 CFR 312.23",
+          "requirement": "IND must contain: cover sheet (Form FDA 1571); table of contents; introductory statement; general investigational plan; investigator's brochure; protocol; chemistry, manufacturing, and control information; pharmacology and toxicology information.",
+          "gate_1_check": "Verify IND submission package contains all required sections",
+          "severity_if_absent": "CRITICAL"
+        },
+        {
+          "section": "21 CFR 312.53",
+          "requirement": "Sponsors must select qualified investigators and provide them with information needed to conduct the investigation properly, ensure proper monitoring, and ensure that FDA and all participating investigators are promptly informed of significant new adverse effects.",
+          "gate_1_check": "Verify investigator qualification documentation present",
+          "severity_if_absent": "WARNING"
+        },
+        {
+          "section": "21 CFR 312.60",
+          "requirement": "An investigator shall conduct the investigation in accordance with the relevant, current protocol(s) and shall only make changes in a protocol after notifying the sponsor.",
+          "gate_1_check": "Verify protocol deviation documentation structure present",
+          "severity_if_absent": "INFO"
+        },
+        {
+          "section": "21 CFR 312.62",
+          "requirement": "An investigator shall maintain adequate records of the disposition of the drug, including dates, quantity, and use by subjects. If the investigation is terminated, suspended, discontinued, or completed, the investigator shall return the unused supplies of the drug to the sponsor.",
+          "gate_1_check": "Verify drug accountability record structure present",
+          "severity_if_absent": "INFO"
+        }
+      ]
+    }
+  ],
+
+  "ich_guidelines": [
+    {
+      "id": "ICH-001",
+      "citation": "ICH E6(R3)",
+      "title": "Good Clinical Practice",
+      "relevance": "Principles-based GCP framework. Applies alongside CFR requirements for all clinical trials.",
+      "gate_mapping": "Gate 1 — supplementary verification",
+      "key_principles": [
+        "Trial design and conduct ensures protection of human subjects",
+        "Data recorded, handled, and stored to allow accurate reporting, interpretation, and verification",
+        "Systems with procedures that assure quality of every aspect of the trial",
+        "Risk-based approach to quality management proportionate to risks"
+      ]
+    },
+    {
+      "id": "ICH-002",
+      "citation": "ICH E6(R2)",
+      "title": "Good Clinical Practice (prior version, still referenced)",
+      "relevance": "Prior GCP version; some sponsors and regulators may reference E6(R2) for ongoing trials.",
+      "gate_mapping": "Gate 1 — version-dependent",
+      "note": "Verify which version applies to the specific trial before Gate 1 classification"
+    }
+  ],
+
+  "alcoa_requirements": {
+    "standard": "ALCOA+",
+    "source": "FDA Data Integrity Guidance 2018",
+    "properties": [
+      {
+        "property": "Attributable",
+        "requirement": "Data must be attributable to the person who generated or collected it",
+        "proof_certificate_mapping": "Property 2 (Values Verified) — source_field_path and source_document"
+      },
+      {
+        "property": "Legible",
+        "requirement": "Data must be readable throughout the retention period",
+        "proof_certificate_mapping": "Certificate schema — structured JSON is machine and human readable"
+      },
+      {
+        "property": "Contemporaneous",
+        "requirement": "Data must be recorded at the time it was generated or observed",
+        "proof_certificate_mapping": "generation_timestamp — set at determination time, immutable"
+      },
+      {
+        "property": "Original",
+        "requirement": "Data must be the original record or a certified true copy",
+        "proof_certificate_mapping": "lineage.source_document_hashes — SHA-256 of original documents"
+      },
+      {
+        "property": "Accurate",
+        "requirement": "Data must be error-free and a complete representation of the observation",
+        "proof_certificate_mapping": "Property 3 (Verification Operation) — deterministic, reproducible"
+      },
+      {
+        "property": "Complete",
+        "requirement": "Data must include all results including any repeat or reanalysis",
+        "proof_certificate_mapping": "Property 2 includes all values checked; absence checks documented"
+      },
+      {
+        "property": "Consistent",
+        "requirement": "Data must be self-consistent in its time sequence and cross-references",
+        "proof_certificate_mapping": "Gate 2 (Lean4) — version consistency and reference resolution"
+      },
+      {
+        "property": "Enduring",
+        "requirement": "Data must be maintained for the required retention period",
+        "proof_certificate_mapping": "Certificate retention requirements per PC-SPEC-001 §6"
+      },
+      {
+        "property": "Available",
+        "requirement": "Data must be accessible for review and audit throughout the retention period",
+        "proof_certificate_mapping": "Certificate accessibility requirements per PC-SPEC-001 §6"
+      }
+    ]
+  },
+
+  "_changelog": [
+    {
+      "version": "1.0",
+      "date": "2026-05-01",
+      "changes": "Initial regulatory mapping"
+    }
+  ]
 }

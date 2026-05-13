@@ -1,8 +1,181 @@
 {
+  "_schema": "nextrial-regulatory-mapping/1.0",
+  "_document": "brazil-anvisa.json",
+  "_version": "1.0",
+  "_last_verified": "2026-05-01",
+  "_note": "AI-Assisted — Human Review Required. This mapping was co-developed with Brazilian regulatory expertise. Graziela Peduti (Head of Global Regulatory Intelligence, NexTrial.ai) reviewed ANVISA, CEP/CONEP, and LGPD requirements. Verify current regulation status before relying on this mapping.",
+
   "jurisdiction": "BR",
   "regulatory_body": "ANVISA",
-  "version": "1.0",
-  "last_verified": "2026-05-01",
-  "regulations": [],
-  "_note": "PLACEHOLDER — paste full content from Priority 1 output"
+  "regulatory_body_full": "Agência Nacional de Vigilância Sanitária",
+  "country_code": "BR",
+  "language_note": "Brazilian regulations are authoritative in Portuguese. This mapping is in English for international accessibility. The Portuguese originals govern in all cases of conflict.",
+
+  "regulations": [
+    {
+      "id": "BR-001",
+      "citation": "Lei 14.874/2024",
+      "title": "Lei de Pesquisa Clínica / Clinical Research Law",
+      "gate_mapping": "Gate 1 — CFM-1 Verification",
+      "effective_date": "2024-06-07",
+      "relevance": "Brazil's primary clinical research law. Governs all aspects of clinical trial conduct including ethics approval, informed consent, post-trial access, and AI use in clinical contexts.",
+      "key_requirements": [
+        {
+          "article": "Art. 7",
+          "requirement": "Research must be approved by an accredited Ethics Committee (CEP) and, where required, by CONEP before initiation.",
+          "gate_1_check": "Verify CEP approval documentation present and current before site activation",
+          "severity_if_absent": "CRITICAL"
+        },
+        {
+          "article": "Art. 15",
+          "requirement": "Post-trial access to beneficial interventions must be planned and documented before trial initiation.",
+          "gate_1_check": "Verify post-trial access plan present in trial documentation",
+          "severity_if_absent": "CRITICAL",
+          "note": "This is a distinguishing requirement of Brazilian law with no direct US equivalent. Must not be overlooked in multi-jurisdiction trials."
+        },
+        {
+          "article": "Art. 17",
+          "requirement": "Informed consent must be obtained in language accessible to the research participant, with the right to withdraw at any time.",
+          "gate_1_check": "Verify consent document language level and withdrawal rights statement",
+          "severity_if_absent": "CRITICAL"
+        },
+        {
+          "article": "Art. 23",
+          "requirement": "Data from clinical research must be stored in Brazil or in countries with equivalent data protection, subject to LGPD requirements.",
+          "gate_1_check": "Verify data residency statement in trial protocol or data management plan",
+          "severity_if_absent": "WARNING"
+        }
+      ]
+    },
+    {
+      "id": "BR-002",
+      "citation": "RDC 945/2024",
+      "title": "Resolução da Diretoria Colegiada 945 — Clinical Trial Dossier Requirements",
+      "gate_mapping": "Gate 1 — CFM-1 Verification",
+      "effective_date": "2024-01-01",
+      "relevance": "Governs the structure and content of clinical trial dossiers submitted to ANVISA.",
+      "key_requirements": [
+        {
+          "article": "Art. 8",
+          "requirement": "The clinical trial dossier must include: protocol, investigator brochure, informed consent form, qualification of investigators, and site qualification documentation.",
+          "gate_1_check": "Verify all required dossier sections present and complete",
+          "severity_if_absent": "CRITICAL"
+        },
+        {
+          "article": "Art. 12",
+          "requirement": "All dossier documents submitted to ANVISA must be in Portuguese or accompanied by certified Portuguese translation.",
+          "gate_1_check": "Verify Portuguese language version present for all required dossier documents",
+          "severity_if_absent": "CRITICAL",
+          "note": "AI-generated documents must be reviewed by a qualified bilingual regulatory professional before submission. Machine translation alone does not satisfy this requirement."
+        },
+        {
+          "article": "Art. 19",
+          "requirement": "Changes to the protocol after ANVISA approval require a protocol amendment submission with updated risk-benefit assessment.",
+          "gate_1_check": "Verify protocol version in dossier matches ANVISA-approved version",
+          "severity_if_absent": "CRITICAL"
+        }
+      ]
+    },
+    {
+      "id": "BR-003",
+      "citation": "Resolução CNS 466/2012 and 580/2018",
+      "title": "CEP/CONEP Ethics Review — Foundational Guidelines",
+      "gate_mapping": "Gate 1 — CFM-1 Verification",
+      "relevance": "Governs ethics review by CEP (site-level) and CONEP (national-level). International and multicenter trials require CONEP review in addition to CEP.",
+      "key_requirements": [
+        {
+          "requirement": "CEP approval required for all research involving human beings at the institution.",
+          "gate_1_check": "Verify CEP approval certificate present and within validity period",
+          "severity_if_absent": "CRITICAL"
+        },
+        {
+          "requirement": "CONEP review required for: research involving indigenous populations; research in areas of national biosecurity; international collaborative research; research with foreign genetic material.",
+          "gate_1_check": "Evaluate whether trial characteristics trigger CONEP review requirement",
+          "severity_if_absent": "CRITICAL",
+          "note": "Most international sponsor trials require CONEP review. Verify applicability case-by-case."
+        },
+        {
+          "requirement": "Ethics approval must be documented with CEP registration number (CAAE — Certificado de Apresentação de Apreciação Ética).",
+          "gate_1_check": "Verify CAAE number present in ethics documentation",
+          "severity_if_absent": "CRITICAL"
+        }
+      ]
+    },
+    {
+      "id": "BR-004",
+      "citation": "CFM Resolução 2.454/2024",
+      "title": "Conselho Federal de Medicina — AI in Medical Practice",
+      "gate_mapping": "Gate 1 + Gate 3 Attestation Level Override",
+      "effective_date": "2024-01-01",
+      "relevance": "CFM Resolution 2.454/2024 governs the use of AI in medical practice in Brazil. It has direct implications for AI-assisted patient eligibility determinations and any AI output that influences a medical decision in a patient encounter.",
+      "key_requirements": [
+        {
+          "requirement": "AI systems used in medical practice must be validated and must not replace the physician's clinical judgment.",
+          "gate_1_check": "Verify system documentation demonstrates physician oversight for all medical determinations",
+          "severity_if_absent": "CRITICAL",
+          "gate_3_implication": "Any medical determination (eligibility, safety assessment, clinical judgment) requires Level 3 Attestation under SAID-SPEC-001 regardless of protocol configuration. This is a jurisdiction-specific override."
+        },
+        {
+          "requirement": "The physician retains full ethical and legal responsibility for decisions made with AI assistance.",
+          "gate_1_check": "Verify liability documentation present in site agreement",
+          "severity_if_absent": "WARNING",
+          "gate_3_implication": "Level 3 attestation PI statement must explicitly reference clinical responsibility acceptance"
+        },
+        {
+          "requirement": "AI-assisted decisions must be documented with sufficient information to reconstruct the basis for the decision.",
+          "gate_1_check": "Verify proof certificate architecture satisfies reconstruction requirement",
+          "severity_if_absent": "CRITICAL",
+          "note": "This is the Brazilian regulatory basis for the proof certificate requirement. The proof certificate architecture is directly responsive to this provision."
+        }
+      ]
+    },
+    {
+      "id": "BR-005",
+      "citation": "LGPD — Lei Geral de Proteção de Dados (Lei 13.709/2018)",
+      "title": "General Data Protection Law",
+      "gate_mapping": "Gate 1 — CFM-1 Verification",
+      "relevance": "Brazil's data privacy law. Clinical trial data involving Brazilian participants is subject to LGPD. Applies to AI systems processing participant data.",
+      "key_requirements": [
+        {
+          "article": "Art. 7 and Art. 11",
+          "requirement": "Processing of health data (a sensitive data category under LGPD) requires explicit consent or one of the enumerated legal bases.",
+          "gate_1_check": "Verify data processing consent basis documented in trial protocol or data management plan",
+          "severity_if_absent": "CRITICAL"
+        },
+        {
+          "article": "Art. 20",
+          "requirement": "Data subjects have the right to request review of automated decisions that affect their interests.",
+          "gate_1_check": "Verify participant data rights documentation includes Art. 20 review right",
+          "severity_if_absent": "WARNING",
+          "note": "The proof certificate architecture supports this right — the certificate documents the basis for the automated determination and can be provided to the participant on request."
+        },
+        {
+          "article": "Art. 46",
+          "requirement": "Data controllers and processors must adopt technical and administrative security measures to protect personal data.",
+          "gate_1_check": "Verify data security documentation present",
+          "severity_if_absent": "WARNING"
+        },
+        {
+          "article": "Art. 33",
+          "requirement": "International transfer of personal data is only permitted to countries with adequate protection level or with specific safeguards.",
+          "gate_1_check": "If trial data transferred internationally: verify transfer mechanism documented",
+          "severity_if_absent": "WARNING"
+        }
+      ]
+    }
+  ],
+
+  "regulatory_positioning_note": {
+    "category": "Proactively safe vs. reactively safe",
+    "description": "Brazil's regulatory environment is characterized by detailed, prescriptive requirements across multiple bodies (ANVISA, CEP/CONEP, CFM, ANPD). AI systems operating in Brazilian clinical trials must satisfy requirements across all applicable bodies simultaneously. The proof certificate architecture was specifically designed to satisfy CFM 2.454's reconstruction requirement — which is more prescriptive than comparable US or EU requirements at this time.",
+    "strategic_note": "Brazilian regulatory requirements for AI in medical contexts (CFM 2.454) are among the most operationally specific globally. Compliance here establishes a high-water mark that satisfies most other jurisdictions' requirements by extension."
+  },
+
+  "_changelog": [
+    {
+      "version": "1.0",
+      "date": "2026-05-01",
+      "changes": "Initial regulatory mapping — developed with Brazilian regulatory expertise"
+    }
+  ]
 }

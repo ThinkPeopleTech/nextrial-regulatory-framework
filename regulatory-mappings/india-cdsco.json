@@ -1,8 +1,190 @@
 {
+  "_schema": "nextrial-regulatory-mapping/1.0",
+  "_document": "india-cdsco.json",
+  "_version": "1.0",
+  "_last_verified": "2026-05-01",
+  "_note": "AI-Assisted — Human Review Required. India regulatory mapping developed with reference to CDSCO published guidance and NDCTR 2019. Verify current regulation status with qualified Indian regulatory counsel before relying on this mapping.",
+
   "jurisdiction": "IN",
   "regulatory_body": "CDSCO",
-  "version": "1.0",
-  "last_verified": "2026-05-01",
-  "regulations": [],
-  "_note": "PLACEHOLDER — paste full content from Priority 1 output"
+  "regulatory_body_full": "Central Drugs Standard Control Organisation",
+  "country_code": "IN",
+
+  "regulations": [
+    {
+      "id": "IN-001",
+      "citation": "New Drugs and Clinical Trials Rules 2019 (NDCTR 2019)",
+      "title": "New Drugs and Clinical Trials Rules",
+      "gate_mapping": "Gate 1 — CFM-1 Verification",
+      "effective_date": "2019-03-19",
+      "relevance": "India's primary regulation governing clinical trials. Replaced Schedule Y of the Drugs and Cosmetics Act. Governs ethics committee review, informed consent, compensation, and regulatory submission requirements.",
+      "key_requirements": [
+        {
+          "rule": "Rule 9",
+          "requirement": "Application for permission to conduct a clinical trial must include: clinical trial protocol; investigator's brochure; informed consent form; case report form; investigator qualifications; ethics committee composition; compensation policy.",
+          "gate_1_check": "Verify all required application components present",
+          "severity_if_absent": "CRITICAL"
+        },
+        {
+          "rule": "Rule 11",
+          "requirement": "No clinical trial shall be initiated without obtaining approval from an Ethics Committee registered with the Central Licensing Authority.",
+          "gate_1_check": "Verify registered Ethics Committee approval present with registration number",
+          "severity_if_absent": "CRITICAL"
+        },
+        {
+          "rule": "Rule 13",
+          "requirement": "Informed consent process must be audio-visually recorded for first-in-human and bioavailability/bioequivalence studies.",
+          "gate_1_check": "If first-in-human or BA/BE study: verify AV recording requirement documented in consent procedure",
+          "severity_if_absent": "CRITICAL"
+        },
+        {
+          "rule": "Rule 17 (Seventh Schedule)",
+          "requirement": "Compensation must be provided to trial subjects for clinical trial related injury or death. Quantum of compensation to be decided by the Expert Committee.",
+          "gate_1_check": "Verify compensation policy and procedure present in site documentation",
+          "severity_if_absent": "CRITICAL",
+          "note": "The Seventh Schedule compensation requirement is one of the most operationally significant distinguishing features of Indian clinical trial regulation. Must not be overlooked in multi-jurisdiction trials."
+        },
+        {
+          "rule": "Rule 25",
+          "requirement": "Sponsor must report to CDSCO: serious and unexpected adverse drug reactions within 14 days; deaths within 24 hours; any amendment to the clinical trial protocol.",
+          "gate_1_check": "Verify adverse event reporting structure present in protocol and site documentation",
+          "severity_if_absent": "WARNING"
+        },
+        {
+          "rule": "Rule 34",
+          "requirement": "Post-approval changes to clinical trial protocol, investigator brochure, or site require prior approval or notification depending on the nature of the change.",
+          "gate_1_check": "Verify protocol version documentation matches CDSCO-approved version",
+          "severity_if_absent": "WARNING"
+        }
+      ]
+    },
+    {
+      "id": "IN-002",
+      "citation": "NDCTR 2019 — Ethics Committee Registration and Requirements",
+      "title": "Ethics Committee Requirements under NDCTR 2019",
+      "gate_mapping": "Gate 1 — CFM-1 Verification",
+      "relevance": "Ethics Committees conducting review for clinical trials must be registered with CDSCO.",
+      "key_requirements": [
+        {
+          "requirement": "Ethics Committee must be registered with Central Licensing Authority under Form CT-04.",
+          "gate_1_check": "Verify Ethics Committee registration number (CT-04) present in approval documentation",
+          "severity_if_absent": "CRITICAL"
+        },
+        {
+          "requirement": "Ethics Committee must have minimum required membership including medical professionals, legal expert, lay person, and social scientist.",
+          "gate_1_check": "Verify Ethics Committee composition documentation meets membership requirements",
+          "severity_if_absent": "WARNING"
+        },
+        {
+          "requirement": "Ethics Committee approval letter must include: study title; protocol version; consent form version; approval date; any conditions.",
+          "gate_1_check": "Verify Ethics Committee approval letter contains all required elements",
+          "severity_if_absent": "WARNING"
+        }
+      ]
+    },
+    {
+      "id": "IN-003",
+      "citation": "Digital Personal Data Protection Act 2023 (DPDP Act)",
+      "title": "Digital Personal Data Protection Act",
+      "gate_mapping": "Gate 1 — CFM-1 Verification",
+      "effective_date": "2023-08-11",
+      "relevance": "India's data protection law. Clinical trial data involving Indian participants is subject to DPDP Act. Applies to AI systems processing participant personal data.",
+      "key_requirements": [
+        {
+          "section": "Section 4",
+          "requirement": "Personal data may be processed only for a lawful purpose for which the data principal has given consent, or for certain legitimate uses.",
+          "gate_1_check": "Verify data processing legal basis documented in trial protocol or data management plan",
+          "severity_if_absent": "WARNING",
+          "note": "DPDP Act rules under development as of mapping date. Verify current implementation requirements with Indian legal counsel."
+        },
+        {
+          "section": "Section 8",
+          "requirement": "Data fiduciaries must ensure accuracy and completeness of personal data, protect data using reasonable security safeguards, and inform the Data Protection Board of personal data breaches.",
+          "gate_1_check": "Verify data security and breach notification procedures documented",
+          "severity_if_absent": "WARNING"
+        },
+        {
+          "section": "Section 16",
+          "requirement": "Processing of personal data of children requires verifiable parental consent.",
+          "gate_1_check": "If trial involves minors: verify parental/guardian consent procedure documented",
+          "severity_if_absent": "CRITICAL"
+        }
+      ]
+    },
+    {
+      "id": "IN-004",
+      "citation": "ICMR National Ethical Guidelines for Biomedical and Health Research Involving Human Participants 2017",
+      "title": "ICMR Ethical Guidelines",
+      "gate_mapping": "Gate 1 — supplementary verification",
+      "relevance": "ICMR guidelines are a key reference for Ethics Committees reviewing clinical trials in India. Not directly regulatory but highly influential in ethics review and site qualification.",
+      "key_requirements": [
+        {
+          "requirement": "Research involving human participants must be guided by the principles of respect for persons, beneficence, non-maleficence, and justice.",
+          "gate_1_check": "INFO — principles documented in protocol ethical considerations section",
+          "severity_if_absent": "INFO"
+        },
+        {
+          "requirement": "Special protections apply for vulnerable populations including pregnant women, children, prisoners, and persons with diminished autonomy.",
+          "gate_1_check": "If vulnerable population involved: verify enhanced protection procedures documented",
+          "severity_if_absent": "WARNING"
+        },
+        {
+          "requirement": "Community engagement and benefit sharing should be considered for research involving specific communities.",
+          "gate_1_check": "INFO — community engagement plan noted if applicable",
+          "severity_if_absent": "INFO"
+        }
+      ]
+    },
+    {
+      "id": "IN-005",
+      "citation": "CDSCO Forms CT-04, CT-06A, CT-03",
+      "title": "CDSCO Regulatory Submission Forms",
+      "gate_mapping": "Gate 1 — CFM-1 Verification",
+      "relevance": "Specific CDSCO forms required for clinical trial registration, ethics committee applications, and site applications.",
+      "key_requirements": [
+        {
+          "form": "Form CT-04",
+          "purpose": "Ethics Committee Registration with CLA",
+          "gate_1_check": "Verify Ethics Committee CT-04 registration number present",
+          "severity_if_absent": "CRITICAL"
+        },
+        {
+          "form": "Form CT-06A",
+          "purpose": "Clinical Trial Site Registration / Site Application",
+          "gate_1_check": "Verify site CT-06A registration present for all trial sites",
+          "severity_if_absent": "CRITICAL"
+        },
+        {
+          "form": "Form CT-03",
+          "purpose": "Application for clinical trial permission",
+          "gate_1_check": "Verify CT-03 application present and CDSCO permission documented",
+          "severity_if_absent": "CRITICAL"
+        }
+      ]
+    }
+  ],
+
+  "ctri_requirements": {
+    "registry": "CTRI — Clinical Trials Registry India",
+    "url": "http://ctri.nic.in",
+    "requirement": "All clinical trials must be registered in CTRI before enrollment of first participant.",
+    "gate_1_check": "Verify CTRI registration number present in trial documentation",
+    "severity_if_absent": "CRITICAL",
+    "note": "CTRI registration is a prerequisite for publication in most Indian journals and is increasingly required by international journals for trials conducted in India."
+  },
+
+  "import_license_note": {
+    "requirement": "Import License required for investigational medicinal products being imported into India for clinical trial purposes.",
+    "gate_1_check": "Verify import license documentation present if IMP is imported",
+    "severity_if_absent": "CRITICAL",
+    "note": "Import license timelines can add 8-16 weeks to site activation in India. This is a common source of activation delay not present in US or EU contexts."
+  },
+
+  "_changelog": [
+    {
+      "version": "1.0",
+      "date": "2026-05-01",
+      "changes": "Initial regulatory mapping"
+    }
+  ]
 }
