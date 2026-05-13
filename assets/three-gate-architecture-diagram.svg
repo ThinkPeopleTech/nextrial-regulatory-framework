@@ -1,7 +1,124 @@
-<!-- three-gate-architecture-diagram.svg — PLACEHOLDER -->
-<!-- Diagram to be added post-DIA 2026 -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
-  <rect width="800" height="400" fill="#0A1628"/>
-  <text x="400" y="200" fill="#00D4FF" font-family="monospace" font-size="16" text-anchor="middle">three-gate-architecture-diagram</text>
-  <text x="400" y="230" fill="#666" font-family="monospace" font-size="12" text-anchor="middle">Diagram forthcoming</text>
+<svg width="100%" viewBox="0 0 680 820" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>Three-gate verification architecture across the clinical trial lifecycle</title>
+<desc>Horizontal three-gate flow at top with lifecycle timeline below showing Trial Activation Intelligence, Patient Eligibility Prediction, and Trial Execution Intelligence phases. Published under Apache 2.0.</desc>
+<style>
+  text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; }
+  .th { font-size: 14px; font-weight: 500; fill: #FFFFFF; }
+  .ts { font-size: 12px; font-weight: 400; fill: #AAAAAA; }
+  rect { fill: none; }
+  .bg { fill: #0A1628; }
+  .gate-teal { fill: rgba(0,212,170,0.08); stroke: #00D4AA; }
+  .gate-blue { fill: rgba(0,212,255,0.08); stroke: #00D4FF; }
+  .gate-amber { fill: rgba(245,166,35,0.08); stroke: #F5A623; }
+  .chip-teal rect { fill: rgba(0,212,170,0.15); stroke: #00D4AA; stroke-width: 0.5; }
+  .chip-teal text { fill: #00D4AA; }
+  .chip-blue rect { fill: rgba(0,212,255,0.12); stroke: #00D4FF; stroke-width: 0.5; }
+  .chip-blue text { fill: #00D4FF; }
+  .chip-purple rect { fill: rgba(127,119,221,0.12); stroke: #7F77DD; stroke-width: 0.5; }
+  .chip-purple text { fill: #7F77DD; }
+  .chip-amber rect { fill: rgba(245,166,35,0.12); stroke: #F5A623; stroke-width: 0.5; }
+  .chip-amber text { fill: #F5A623; }
+  .chip-coral rect { fill: rgba(216,90,48,0.12); stroke: #D85A30; stroke-width: 0.5; }
+  .chip-coral text { fill: #D85A30; }
+  .chip-red rect { fill: rgba(255,68,68,0.12); stroke: #FF4444; stroke-width: 0.5; }
+  .chip-red text { fill: #FF4444; }
+  .chip-gray rect { fill: rgba(170,170,170,0.08); stroke: #666666; stroke-width: 0.5; }
+  .chip-gray text { fill: #AAAAAA; }
+  .chip-green rect { fill: rgba(0,204,136,0.12); stroke: #00CC88; stroke-width: 0.5; }
+  .chip-green text { fill: #00CC88; }
+  .arr { stroke: #AAAAAA; stroke-width: 1; }
+  marker path { fill: none; stroke: #AAAAAA; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+</style>
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9"/></marker>
+</defs>
+
+<rect class="bg" x="0" y="0" width="680" height="820" rx="0"/>
+
+<text class="th" x="340" y="24" text-anchor="middle" dominant-baseline="central">Three-gate verification architecture</text>
+<text class="ts" x="340" y="44" text-anchor="middle" dominant-baseline="central" font-style="italic">One verification architecture governs AI from protocol ingestion through trial closeout</text>
+
+<text class="ts" x="24" y="90" dominant-baseline="central">AI output</text>
+<line x1="72" y1="90" x2="92" y2="90" class="arr" marker-end="url(#arrow)"/>
+
+<rect class="gate-teal" x="96" y="66" width="164" height="150" rx="10" stroke-width="0.5"/>
+<text class="th" x="178" y="86" text-anchor="middle" dominant-baseline="central" fill="#00D4AA">Gate 1</text>
+<text class="ts" x="178" y="104" text-anchor="middle" dominant-baseline="central">Regulatory compliance</text>
+<g class="chip-blue"><rect x="106" y="116" width="66" height="22" rx="4"/><text class="ts" x="139" y="127" text-anchor="middle" dominant-baseline="central">FDA</text></g>
+<g class="chip-blue"><rect x="182" y="116" width="66" height="22" rx="4"/><text class="ts" x="215" y="127" text-anchor="middle" dominant-baseline="central">ANVISA</text></g>
+<g class="chip-blue"><rect x="106" y="146" width="66" height="22" rx="4"/><text class="ts" x="139" y="157" text-anchor="middle" dominant-baseline="central">CDSCO</text></g>
+<g class="chip-blue"><rect x="182" y="146" width="66" height="22" rx="4"/><text class="ts" x="215" y="157" text-anchor="middle" dominant-baseline="central">EU AI Act</text></g>
+<g class="chip-red"><rect x="106" y="178" width="40" height="18" rx="4"/><text class="ts" x="126" y="187" text-anchor="middle" dominant-baseline="central">CRIT</text></g>
+<g class="chip-amber"><rect x="152" y="178" width="40" height="18" rx="4"/><text class="ts" x="172" y="187" text-anchor="middle" dominant-baseline="central">WARN</text></g>
+<g class="chip-gray"><rect x="198" y="178" width="40" height="18" rx="4"/><text class="ts" x="218" y="187" text-anchor="middle" dominant-baseline="central">INFO</text></g>
+<text class="ts" x="178" y="56" text-anchor="middle" dominant-baseline="central" font-style="italic">Only verifies. Never generates.</text>
+
+<line x1="264" y1="140" x2="286" y2="140" class="arr" marker-end="url(#arrow)"/>
+
+<rect class="gate-blue" x="290" y="66" width="144" height="150" rx="10" stroke-width="0.5"/>
+<text class="th" x="362" y="86" text-anchor="middle" dominant-baseline="central" fill="#00D4FF">Gate 2</text>
+<text class="ts" x="362" y="104" text-anchor="middle" dominant-baseline="central">Formal proof — Lean4</text>
+<g class="chip-purple"><rect x="300" y="118" width="124" height="22" rx="4"/><text class="ts" x="362" y="129" text-anchor="middle" dominant-baseline="central">Rule invoked</text></g>
+<g class="chip-purple"><rect x="300" y="144" width="124" height="22" rx="4"/><text class="ts" x="362" y="155" text-anchor="middle" dominant-baseline="central">Values verified</text></g>
+<g class="chip-blue"><rect x="300" y="170" width="124" height="22" rx="4"/><text class="ts" x="362" y="181" text-anchor="middle" dominant-baseline="central">Boundary statement</text></g>
+<text class="ts" x="362" y="204" text-anchor="middle" dominant-baseline="central">&lt; 100ms · binary · deterministic</text>
+<text class="ts" x="362" y="56" text-anchor="middle" dominant-baseline="central" font-style="italic">Proves structure, not semantics</text>
+
+<line x1="438" y1="140" x2="460" y2="140" class="arr" marker-end="url(#arrow)"/>
+
+<rect class="gate-amber" x="464" y="66" width="164" height="150" rx="10" stroke-width="0.5"/>
+<text class="th" x="546" y="86" text-anchor="middle" dominant-baseline="central" fill="#F5A623">Gate 3</text>
+<text class="ts" x="546" y="104" text-anchor="middle" dominant-baseline="central">Human oversight</text>
+<g class="chip-gray"><rect x="474" y="122" width="144" height="22" rx="4"/><text class="ts" x="546" y="133" text-anchor="middle" dominant-baseline="central">L1: review attestation</text></g>
+<g class="chip-amber"><rect x="474" y="150" width="144" height="22" rx="4"/><text class="ts" x="546" y="161" text-anchor="middle" dominant-baseline="central">L2: independent verify</text></g>
+<g class="chip-coral"><rect x="474" y="178" width="144" height="22" rx="4"/><text class="ts" x="546" y="189" text-anchor="middle" dominant-baseline="central">L3: clinical judgment</text></g>
+<text class="ts" x="546" y="56" text-anchor="middle" dominant-baseline="central" font-style="italic">The human always decides.</text>
+
+<line x1="632" y1="140" x2="660" y2="140" class="arr" marker-end="url(#arrow)"/>
+
+<g class="chip-gray"><rect x="96" y="226" width="532" height="24" rx="6"/><text class="ts" x="362" y="238" text-anchor="middle" dominant-baseline="central">Immutable audit trail — 21 CFR Part 11 — bi-temporal</text></g>
+
+<text class="th" x="340" y="286" text-anchor="middle" dominant-baseline="central">Lifecycle scope</text>
+<line x1="40" y1="310" x2="640" y2="310" class="arr" marker-end="url(#arrow)"/>
+
+<g class="chip-teal"><rect x="40" y="326" width="196" height="140" rx="10"/><text class="th" x="138" y="348" text-anchor="middle" dominant-baseline="central">Trial activation</text><text class="ts" x="138" y="366" text-anchor="middle" dominant-baseline="central">intelligence</text></g>
+<text class="ts" x="138" y="392" text-anchor="middle" dominant-baseline="central">Protocol ingestion</text>
+<text class="ts" x="138" y="410" text-anchor="middle" dominant-baseline="central">Regulatory doc gen</text>
+<text class="ts" x="138" y="428" text-anchor="middle" dominant-baseline="central">IRB submission</text>
+<text class="ts" x="138" y="446" text-anchor="middle" dominant-baseline="central">Site qualification</text>
+<text class="ts" x="138" y="302" text-anchor="middle" dominant-baseline="central">Pre-FPI</text>
+
+<g class="chip-blue"><rect x="246" y="326" width="186" height="140" rx="10"/><text class="th" x="339" y="348" text-anchor="middle" dominant-baseline="central">Patient eligibility</text><text class="ts" x="339" y="366" text-anchor="middle" dominant-baseline="central">prediction</text></g>
+<text class="ts" x="339" y="392" text-anchor="middle" dominant-baseline="central">Trajectory modeling</text>
+<text class="ts" x="339" y="410" text-anchor="middle" dominant-baseline="central">Screen-fail prediction</text>
+<text class="ts" x="339" y="428" text-anchor="middle" dominant-baseline="central">Completion probability</text>
+<text class="ts" x="339" y="446" text-anchor="middle" dominant-baseline="central" font-style="italic">Physics-informed</text>
+<text class="ts" x="339" y="302" text-anchor="middle" dominant-baseline="central">Enrollment</text>
+
+<g class="chip-amber"><rect x="442" y="326" width="196" height="140" rx="10"/><text class="th" x="540" y="348" text-anchor="middle" dominant-baseline="central">Trial execution</text><text class="ts" x="540" y="366" text-anchor="middle" dominant-baseline="central">intelligence</text></g>
+<text class="ts" x="540" y="392" text-anchor="middle" dominant-baseline="central">Plan-vs-actual</text>
+<text class="ts" x="540" y="410" text-anchor="middle" dominant-baseline="central">Deviation detection</text>
+<text class="ts" x="540" y="428" text-anchor="middle" dominant-baseline="central">Compliance surveillance</text>
+<text class="ts" x="540" y="446" text-anchor="middle" dominant-baseline="central" font-style="italic">Proof, not prediction</text>
+<text class="ts" x="540" y="302" text-anchor="middle" dominant-baseline="central">FPI → last patient out</text>
+
+<rect x="40" y="480" width="598" height="30" rx="6" fill="#AAAAAA" opacity="0.06" stroke="#666666" stroke-width="0.5"/>
+<text class="ts" x="340" y="498" text-anchor="middle" dominant-baseline="central" font-style="italic">Three-gate verification spans all three phases — one architecture, full lifecycle</text>
+
+<path d="M540 530 L540 550 L138 550 L138 530" fill="none" stroke="#AAAAAA" stroke-width="0.5" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+<text class="ts" x="340" y="564" text-anchor="middle" dominant-baseline="central" font-style="italic">Execution telemetry refines activation planning</text>
+
+<text class="th" x="340" y="604" text-anchor="middle" dominant-baseline="central">Published metrics</text>
+
+<g class="chip-teal"><rect x="40" y="620" width="196" height="44" rx="6"/><text class="th" x="138" y="636" text-anchor="middle" dominant-baseline="central">94%</text><text class="ts" x="138" y="654" text-anchor="middle" dominant-baseline="central">First-submission approval</text></g>
+<g class="chip-blue"><rect x="246" y="620" width="186" height="44" rx="6"/><text class="th" x="339" y="636" text-anchor="middle" dominant-baseline="central">87.3%</text><text class="ts" x="339" y="654" text-anchor="middle" dominant-baseline="central">Prediction accuracy</text></g>
+<g class="chip-amber"><rect x="442" y="620" width="196" height="44" rx="6"/><text class="th" x="540" y="636" text-anchor="middle" dominant-baseline="central">&lt; 100ms</text><text class="ts" x="540" y="654" text-anchor="middle" dominant-baseline="central">Lean4 proof duration</text></g>
+
+<g class="chip-green"><rect x="442" y="678" width="60" height="20" rx="4"/><text class="ts" x="472" y="688" text-anchor="middle" dominant-baseline="central">&lt; 10%</text></g>
+<g class="chip-amber"><rect x="510" y="678" width="60" height="20" rx="4"/><text class="ts" x="540" y="688" text-anchor="middle" dominant-baseline="central">10-25%</text></g>
+<g class="chip-red"><rect x="578" y="678" width="60" height="20" rx="4"/><text class="ts" x="608" y="688" text-anchor="middle" dominant-baseline="central">&gt; 25%</text></g>
+<text class="ts" x="540" y="714" text-anchor="middle" dominant-baseline="central" font-style="italic">Execution variance thresholds</text>
+
+<text class="th" x="340" y="752" text-anchor="middle" dominant-baseline="central">The standard is open. The implementation is NexTrial's.</text>
+<text class="ts" x="340" y="780" text-anchor="middle" dominant-baseline="central" font-style="italic">DIA 2026 Abstract 116114 · steventhompsonai.substack.com</text>
 </svg>
