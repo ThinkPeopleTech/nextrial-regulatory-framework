@@ -1,7 +1,74 @@
-<!-- proof-certificate-schema-diagram.svg — PLACEHOLDER -->
-<!-- Diagram to be added post-DIA 2026 -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
-  <rect width="800" height="400" fill="#0A1628"/>
-  <text x="400" y="200" fill="#00D4FF" font-family="monospace" font-size="16" text-anchor="middle">proof-certificate-schema-diagram</text>
-  <text x="400" y="230" fill="#666" font-family="monospace" font-size="12" text-anchor="middle">Diagram forthcoming</text>
+<svg width="100%" viewBox="0 0 680 780" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>Proof certificate specification v1.0</title>
+<desc>Central proof certificate with four properties contrasted against confidence scores, with the three-second vendor test. Published under Apache 2.0.</desc>
+<style>
+  text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; }
+  .th { font-size: 14px; font-weight: 500; fill: #FFFFFF; }
+  .ts { font-size: 12px; font-weight: 400; fill: #AAAAAA; }
+  rect { fill: none; }
+  .bg { fill: #0A1628; }
+  .chip-teal rect { fill: rgba(0,212,170,0.15); stroke: #00D4AA; stroke-width: 0.5; }
+  .chip-teal text { fill: #00D4AA; }
+  .chip-blue rect { fill: rgba(0,212,255,0.12); stroke: #00D4FF; stroke-width: 0.5; }
+  .chip-blue text { fill: #00D4FF; }
+  .chip-amber rect { fill: rgba(245,166,35,0.12); stroke: #F5A623; stroke-width: 0.5; }
+  .chip-amber text { fill: #F5A623; }
+  .chip-coral rect { fill: rgba(216,90,48,0.12); stroke: #D85A30; stroke-width: 0.5; }
+  .chip-coral text { fill: #D85A30; }
+  .chip-red rect { fill: rgba(255,68,68,0.12); stroke: #FF4444; stroke-width: 0.5; }
+  .chip-red text { fill: #FF4444; }
+  .chip-gray rect { fill: rgba(170,170,170,0.08); stroke: #666666; stroke-width: 0.5; }
+  .chip-gray text { fill: #AAAAAA; }
+  .chip-green rect { fill: rgba(0,204,136,0.12); stroke: #00CC88; stroke-width: 0.5; }
+  .chip-green text { fill: #00CC88; }
+  .cert-border { fill: rgba(0,212,255,0.06); stroke: #00D4FF; stroke-width: 1; }
+</style>
+
+<rect class="bg" x="0" y="0" width="680" height="780" rx="0"/>
+
+<text class="th" x="340" y="28" text-anchor="middle" dominant-baseline="central">Proof certificate specification v1.0</text>
+<text class="ts" x="340" y="48" text-anchor="middle" dominant-baseline="central" font-style="italic">A confidence interval tells you how often. A proof certificate tells you whether.</text>
+
+<g opacity="0.5">
+<rect x="20" y="74" width="190" height="280" rx="10" fill="rgba(170,170,170,0.05)" stroke="#666666" stroke-width="0.5"/>
+<text class="th" x="115" y="96" text-anchor="middle" dominant-baseline="central" fill="#AAAAAA">Confidence score</text>
+<g class="chip-gray"><rect x="32" y="112" width="166" height="30" rx="4"/><text class="ts" x="115" y="127" text-anchor="middle" dominant-baseline="central">Accuracy: 95%</text></g>
+<g class="chip-gray"><rect x="32" y="150" width="166" height="30" rx="4"/><text class="ts" x="115" y="165" text-anchor="middle" dominant-baseline="central">AUC: 0.91</text></g>
+<g class="chip-gray"><rect x="32" y="188" width="166" height="30" rx="4"/><text class="ts" x="115" y="203" text-anchor="middle" dominant-baseline="central">Cannot reconstruct</text></g>
+<g class="chip-gray"><rect x="32" y="226" width="166" height="30" rx="4"/><text class="ts" x="115" y="241" text-anchor="middle" dominant-baseline="central">Statistical summary</text></g>
+<g class="chip-red"><rect x="32" y="270" width="166" height="30" rx="4"/><text class="ts" x="115" y="285" text-anchor="middle" dominant-baseline="central">Not a compliance artifact</text></g>
+</g>
+
+<rect class="cert-border" x="230" y="74" width="230" height="420" rx="12"/>
+<text class="th" x="345" y="100" text-anchor="middle" dominant-baseline="central" fill="#00D4FF">PROOF CERTIFICATE</text>
+<g class="chip-green"><rect x="300" y="112" width="90" height="24" rx="12"/><text class="ts" x="345" y="124" text-anchor="middle" dominant-baseline="central">PASS</text></g>
+
+<g class="chip-teal"><rect x="244" y="150" width="202" height="56" rx="6"/><text class="th" x="345" y="168" text-anchor="middle" dominant-baseline="central">1. Rule invoked</text><text class="ts" x="345" y="190" text-anchor="middle" dominant-baseline="central">21 CFR 50.25(a)(1)</text></g>
+<g class="chip-teal"><rect x="244" y="216" width="202" height="56" rx="6"/><text class="th" x="345" y="234" text-anchor="middle" dominant-baseline="central">2. Values verified</text><text class="ts" x="345" y="256" text-anchor="middle" dominant-baseline="central">HbA1c = 7.2% &lt; 9.0%</text></g>
+<g class="chip-blue"><rect x="244" y="282" width="202" height="56" rx="6"/><text class="th" x="345" y="300" text-anchor="middle" dominant-baseline="central">3. Verification operation</text><text class="ts" x="345" y="322" text-anchor="middle" dominant-baseline="central">THRESHOLD_COMPARISON</text></g>
+<g class="chip-amber"><rect x="244" y="348" width="202" height="56" rx="6"/><text class="th" x="345" y="366" text-anchor="middle" dominant-baseline="central">4. Boundary statement</text><text class="ts" x="345" y="388" text-anchor="middle" dominant-baseline="central">Clinical context excluded</text></g>
+
+<text class="ts" x="345" y="426" text-anchor="middle" dominant-baseline="central" font-style="italic">ID: PC-2026-0514-001</text>
+<text class="ts" x="345" y="444" text-anchor="middle" dominant-baseline="central" font-style="italic">Lean4 proof: 47ms</text>
+<text class="ts" x="345" y="462" text-anchor="middle" dominant-baseline="central" font-style="italic">Immutable once sealed</text>
+
+<rect x="480" y="74" width="180" height="280" rx="10" fill="rgba(0,212,255,0.04)" stroke="#00D4FF" stroke-width="0.5"/>
+<text class="th" x="570" y="96" text-anchor="middle" dominant-baseline="central" fill="#00D4FF">Proof certificate</text>
+<g class="chip-blue"><rect x="492" y="112" width="156" height="30" rx="4"/><text class="ts" x="570" y="127" text-anchor="middle" dominant-baseline="central">Per-output verification</text></g>
+<g class="chip-blue"><rect x="492" y="150" width="156" height="30" rx="4"/><text class="ts" x="570" y="165" text-anchor="middle" dominant-baseline="central">Specific rule checked</text></g>
+<g class="chip-blue"><rect x="492" y="188" width="156" height="30" rx="4"/><text class="ts" x="570" y="203" text-anchor="middle" dominant-baseline="central">Deterministic result</text></g>
+<g class="chip-blue"><rect x="492" y="226" width="156" height="30" rx="4"/><text class="ts" x="570" y="241" text-anchor="middle" dominant-baseline="central">Reconstructable</text></g>
+<g class="chip-green"><rect x="492" y="270" width="156" height="30" rx="4"/><text class="ts" x="570" y="285" text-anchor="middle" dominant-baseline="central">Compliance artifact</text></g>
+
+<rect x="40" y="520" width="600" height="110" rx="10" fill="rgba(216,90,48,0.06)" stroke="#D85A30" stroke-width="0.5"/>
+<text class="th" x="340" y="546" text-anchor="middle" dominant-baseline="central" fill="#D85A30">The three-second vendor test</text>
+<text class="ts" x="340" y="572" text-anchor="middle" dominant-baseline="central">Ask your clinical AI vendor to reconstruct, for one specific output:</text>
+<text class="ts" x="340" y="594" text-anchor="middle" dominant-baseline="central">Which rules were checked? What values were verified?</text>
+<text class="ts" x="340" y="614" text-anchor="middle" dominant-baseline="central">What operation was performed? What was the boundary?</text>
+
+<g class="chip-gray"><rect x="40" y="650" width="290" height="70" rx="8"/><text class="th" x="185" y="674" text-anchor="middle" dominant-baseline="central">GAMP5</text><text class="ts" x="185" y="696" text-anchor="middle" dominant-baseline="central">Validates system at deployment</text></g>
+<g class="chip-blue"><rect x="350" y="650" width="290" height="70" rx="8"/><text class="th" x="495" y="674" text-anchor="middle" dominant-baseline="central">Proof certificate</text><text class="ts" x="495" y="696" text-anchor="middle" dominant-baseline="central">Verifies each output at runtime</text></g>
+<text class="ts" x="340" y="742" text-anchor="middle" dominant-baseline="central" font-style="italic">Both are required.</text>
+
+<text class="ts" x="340" y="770" text-anchor="middle" dominant-baseline="central" font-style="italic">DIA 2026 Abstract 116114 · steventhompsonai.substack.com</text>
 </svg>
