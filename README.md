@@ -1,241 +1,148 @@
-# Regulatory Validation Framework for AI in Clinical Trials
+# company-brain
 
-**An open standard for how AI systems in clinical trials get verified.**
+Internal organizational-memory substrate for NexTrial AI. A **bi-temporal, four-graph** knowledge store that ingests signals from company tools (email, docs, chat, project, analytics), classifies them with an LLM, links them into a graph, and **answers natural-language questions** about them — grounded in that graph.
 
----
-
-> *The standard is open. The implementation is NexTrial's.*
-
----
-
-## What This Is
-
-Clinical trial AI is being deployed faster than the regulatory guidance governing it. The result is inconsistent, undocumented, and often unauditable practice — varying by sponsor, CRO, site, and jurisdiction.
-
-This repository publishes a formal specification for how AI outputs in clinical trial activation and execution should be verified. It defines the architecture, the proof artifacts, the human oversight protocol, and the regulatory mappings — as an open standard that any implementer can adopt, challenge, and extend.
-
-The framework is built on one foundational principle:
-
-**A regulated clinical decision must be reconstructible — source data, decision logic, and rule application — at the moment an inspector asks for it.**
-
-Confidence scores cannot do this. Proof certificates can.
+> ### ⚠️ Boundary — read first
+> `company-brain` is **internal company infrastructure**, NOT the NexTrial clinical product (Celina / RLM / SPEO / CFM-1 / PPEE). Separate GCP project, identity, and security domain. Keep that line absolute — in code, naming, and docs.
 
 ---
 
-## The Framework at a Glance
+## What it does
 
-### Four-Layer Verification Stack
+1. **Connectors** read curated signals from sources (Gmail label, Drive folder; more planned) and publish to one Pub/Sub bus. They never touch the brain directly.
+2. **Worker** drains the bus and **classifies** each signal with Gemini (on Vertex) into a typed graph node.
+3. **Graph** links nodes across four orthogonal graphs (semantic, entity, temporal, causal), bi-temporally — nothing is hard-deleted; updates supersede.
+4. **Query agent** answers questions ("what's the latest on the X partnership?") by calling read-only graph tools and synthesizing an answer with a swappable LLM.
+
+## Architecture
 
 ```
-┌──────────────────────────────────────────────────────┐
-│  LAYER 0: RBQM Pre-Verification                      │
-│  "Should this activation proceed?"                   │
-│  Site risk · Protocol risk · Population risk         │
-└──────────────────────────┬───────────────────────────┘
-                           │
-┌──────────────────────────▼───────────────────────────┐
-│  GATE 1: Regulatory Compliance Verification          │
-│  "Is this output compliant?"                         │
-│  Jurisdiction-specific adapters · Deterministic      │
-└──────────────────────────┬───────────────────────────┘
-                           │
-┌──────────────────────────▼───────────────────────────┐
-│  GATE 2: Formal Mathematical Proof (Lean4)           │
-│  "Can we prove structural correctness?"              │
-│  Binary pass/fail · Under 100ms · Auditable          │
-└──────────────────────────┬───────────────────────────┘
-                           │
-┌──────────────────────────▼───────────────────────────┐
-│  GATE 3: Human Oversight                             │
-│  "Does the qualified human agree?"                   │
-│  Three attestation levels · Override protocol        │
-└──────────────────────────────────────────────────────┘
+ Connectors (publish only)              Sealed brain (internal-ingress)
+ ┌────────────────────────┐
+ │ Gmail poller (DWD)      │─┐
+ │ Drive poller (DWD)      │ │   ┌──────────────┐   ┌──────────────────┐
+ │ Slack/Plane/PostHog *   │ ├──▶│ brain-signals │──▶│ worker (Job, */15)│
+ └────────────────────────┘ │   │  (Pub/Sub bus)│   │ pull → classify   │
+                             │   └──────────────┘   └─────────┬─────────┘
+                             │                       Gemini (Vertex, ADC)
+                             │                                 ▼
+   FastAPI service ──────────┘                       ┌──────────────────┐
+   (internal, IAM-only)                              │ Cloud SQL (PG)   │
+   /ask  /lineage  /nodes ...                        │ bi-temporal,     │
+        │                                            │ four-graph       │
+        ▼  query agent                               └──────────────────┘
+   ModelProvider (claude|gemini|kimi, via Vertex/ADC)
+        └─ read-only graph tools (search, neighbors, lineage)
+   * Slack/Plane/PostHog planned.
 ```
 
-### Proof Certificate
+**Core principle:** connectors only *publish* to the bus; nothing external calls the brain. The API is internal-ingress + IAM-only. The worker writes via shared code + direct DB (no VPC hop).
 
-Every AI output subject to this framework produces a **proof certificate** — a structured, immutable artifact containing four properties:
+## Data model
 
-1. **Rule Invoked** — which specific regulatory requirement was checked
-2. **Observed Value** — what the system found in the source document
-3. **Determination** — compliant / non-compliant / requires review
-4. **Lineage Trace** — the complete path from source data to determination
+Tables `nodes`, `edges`, `signals` (`app/db.py`), all bi-temporal + soft-delete.
+- `NodeType`: `PERSON, COMPANY, DEAL, SIGNAL, DECISION, ARTIFACT, CONCEPT`
+- `GraphType`: `SEMANTIC, ENTITY, TEMPORAL, CAUSAL`
+- `Status`: `ACTIVE, SUPERSEDED`
+- `SignalSource`: `GMAIL, SLACK, GDRIVE, PLANE, POSTHOG, MANUAL`
+- Bi-temporal: `valid_from/valid_to/recorded_at/superseded_by`. **Soft-delete = SUPERSEDED**; lineage excludes superseded edges.
 
-The certificate is reconstructable under inspection. This is the difference between compliance-grade verification and a confidence score.
+## API surface (internal-ingress)
 
-### The Three-Second Test
+| Method · Path | Purpose |
+|---|---|
+| `POST /ask` | **Query agent** — NL question → grounded answer + source node ids |
+| `POST /signals/ingest` · `POST /signals/{id}/process` | ingest + classify |
+| `GET /nodes` · `GET /nodes/{id}` · `DELETE /nodes/{id}` | read / soft-delete nodes |
+| `GET /edges` · `DELETE /edges/{id}` | read / soft-delete edges |
+| `GET /graph/{graph_name}` | one of the four graphs |
+| `GET /lineage/{node_id}` | recursive causal/temporal walk |
 
-Hand the proof certificate to an inspector. Ask: *"Can you reconstruct this decision from this artifact alone?"*
+Ingest+classify logic lives once in `app/ingestion_service.py`; lineage logic once in `app/services/query_service.py`. Routes are thin callers.
 
-If yes — it satisfies the framework.  
-If no — it is not a compliance artifact. It is a metric.
+## Connectors (live)
 
----
+Same pattern: authenticate to a source, publish `{"source":<X>,"raw_payload":{…}}` to `brain-signals`, advance a GCS checkpoint **only after** a successful publish. Keyless Domain-Wide Delegation (no JSON keys); read-only scopes; each runs as its own single-purpose SA.
 
-## Repository Structure
+- **Gmail** — `app/connectors/gmail_poller.py`. Polls `steven@nextrial.ai` for **`brain`-labeled** mail (`gmail.readonly`). Runs as `gmail-connector`.
+- **Drive** — `app/connectors/drive_poller.py`. Polls the **`brain` folder** for Google Docs (`drive.readonly`), exports to text. Runs as `drive-connector`. (Docs only in v0; PDFs/Sheets/Slides deferred.)
 
-```
-nextrial-regulatory-framework/
-│
-├── README.md                          ← This file
-├── BOUNDARY.md                        ← What is open vs. protected
-├── CONTRIBUTING.md                    ← How to co-develop this standard
-├── LICENSE                            ← Apache 2.0
-│
-├── /specs
-│   ├── proof-certificate-spec-v1.md   ← Four-property proof certificate
-│   ├── three-gate-architecture-v1.md  ← The canonical architecture
-│   ├── rbqm-pre-verification-v1.md    ← Risk-based pre-verification layer
-│   ├── site-ai-disclosure-v1.md       ← PI attestation and oversight
-│   └── adapter-interface-v1.md        ← Regulatory adapter interface contract
-│
-├── /regulatory-mappings
-│   ├── us-fda.json                    ← FDA: 21 CFR Parts 11, 50, 54, 56, 312
-│   ├── brazil-anvisa.json             ← ANVISA: Lei 14.874, RDC 945, LGPD, CFM 2.454
-│   ├── india-cdsco.json               ← CDSCO: NDCTR 2019, DPDP Act 2023
-│   ├── eu-ai-act.json                 ← EU AI Act 2024/1689 Articles 9–17
-│   └── adapter-registry.json          ← Registry of conforming adapters
-│
-├── /lean4
-│   ├── proof-properties-v1.md         ← What gets proven (not how)
-│   └── type-definitions-v1.lean       ← Lean4 type definitions
-│
-├── /validation
-│   ├── test-harness-v1.md             ← Reference test cases
-│   ├── /fixtures                      ← Test input/output pairs
-│   └── /reference-adapter             ← Schema validator (not a compliance adapter)
-│
-├── /co-development
-│   ├── open-questions.md              ← Six unresolved questions — input welcome
-│   ├── dominique-critique-response.md ← Adversarial review: 8 points, 3+3+3 analysis
-│   ├── working-session-findings.md    ← Practitioner working session output
-│   └── contributors.md               ← With gratitude
-│
-└── /assets
-    ├── four-layer-stack-diagram.svg
-    ├── three-gate-architecture-diagram.svg
-    └── proof-certificate-schema-diagram.svg
-```
+## Interaction layer — the query agent (live)
 
----
+`app/agent/` + `/ask`. A bounded tool-use loop: the model calls **read-only** graph tools (`search_nodes`, `get_node`, `get_neighbors`, `get_lineage`) and synthesizes a grounded answer. Neutral company-memory analyst — no personas, no fabrication.
 
-## What Is Open
+- **Swappable models** behind `ModelProvider` (`AGENT_MODEL` env): **Claude Sonnet 4.6**, **Gemini**, **Kimi K2 Thinking** — all via **Vertex AI, keyless ADC, no external API keys**. Each provider owns its own SDK/tool-format translation; the loop is provider-agnostic.
+- **Gemini is the proven default**; Claude and Kimi require a one-time Model Garden enable to join the rotation.
+- Bounded at `MAX_ROUNDS=5`. Citations populate from tool *results*.
 
-Everything in this repository is open: the architecture specification, the proof certificate schema, the regulatory mapping tables, the attestation protocol, the adapter interface contract, the Lean4 property definitions, the validation test harness.
+## Infrastructure (GCP)
 
-The standard belongs to the industry.
+Project **`company-brain-498101`** (`494166823052`), region **`us-central1`** (Kimi uses `global`).
 
-## What Is Protected
+| Resource | Name |
+|---|---|
+| Cloud Run service | `company-brain` (internal ingress) |
+| Cloud Run Jobs | `company-brain-worker`, `gmail-poller`, `drive-poller` |
+| Cloud Scheduler | `company-brain-worker-trigger`, `gmail-poller-trigger`, `drive-poller-trigger` |
+| Cloud SQL (PG 15) | `company-brain-pg` (`db-g1-small`) |
+| Pub/Sub | `brain-signals` / `brain-signals-sub` |
+| GCS | `company-brain-498101-gmail-checkpoint` (gmail/ + drive/ prefixes) |
+| Secret Manager | `company-brain-db-pass`, `company-brain-database-url` |
+| Vertex AI | `gemini-2.5-flash-lite` (classifier); Claude/Gemini/Kimi (agent) |
 
-The production implementations that satisfy this standard — the functional regulatory compliance adapters, the physics-informed eligibility verification, the recursive memory architecture, the deployment infrastructure — are proprietary to NexTrial.ai.
+**Service accounts (least privilege):**
+- `company-brain-run` — service + worker + agent. `cloudsql.client`, `secretmanager.secretAccessor`, `aiplatform.user`, `pubsub.subscriber`, `run.invoker`.
+- `gmail-connector` / `drive-connector` — one per source. `iam.serviceAccountTokenCreator` (self, keyless DWD), `pubsub.publisher` (brain-signals), `storage.objectUser` (checkpoint bucket). DWD authorized for the respective readonly scope.
 
-The boundary is explicit. See [BOUNDARY.md](BOUNDARY.md) for the complete delineation.
+**Enabled APIs include:** `aiplatform`, `pubsub`, `cloudscheduler`, `iamcredentials`, `gmail`, `drive`, `run`, `sqladmin`, `secretmanager`, `storage`.
 
----
+**Org policy note:** `iam.allowedPolicyMemberDomains` (Domain Restricted Sharing) is active — it blocks the external Gmail-push SA, which is why connectors **poll** rather than use push (ADR-017).
 
-## Regulatory Coverage
+## Architecture Decision Records (company-brain series)
 
-| Jurisdiction | Regulations Mapped | Status |
+| # | Decision | Rationale |
 |---|---|---|
-| United States | 21 CFR Parts 11, 50, 54, 56, 312 | v1.0 |
-| Brazil | Lei 14.874/2024, RDC 945/2024, LGPD, CFM 2.454/2024 | v1.0 |
-| India | NDCTR 2019, DPDP Act 2023, ICMR Guidelines | v1.0 |
-| European Union | EU AI Act 2024/1689, EU CTR 536/2014 | v1.0 |
-| ICH | E6(R2), E6(R3), Q9(R1) | v1.0 |
-| Canada | — | Contributions welcome |
-| Japan | — | Contributions welcome |
-| Australia | — | Contributions welcome |
+| 001 | Cloud SQL not AlloyDB | cheapest-that-works, schema portable |
+| 002 | Internal ingress + IAM-only | never public |
+| 003 | Secrets in Secret Manager; no keys on disk | |
+| 004 | Least-privilege SAs | no `roles/editor` |
+| 005 | Single `DATABASE_URL` (socket form) | |
+| 006 | Soft-delete = SUPERSEDED | history is load-bearing |
+| 007 | Bi-temporal model | |
+| 008 | Four-graph edge model | |
+| 009 | Lineage excludes superseded edges | |
+| 010 | Gemini Flash-Lite for classification | cheap, high-volume; behind `ClassifierInterface` |
+| 011 | Vertex via ADC, no keys | |
+| 012 | Stub classifier fallback | never crash ingestion |
+| 013 | Single ingest+process service path | |
+| 014 | Pub/Sub bus; connectors publish only | sealed brain |
+| 015 | Pull (not push) consumption | nothing inbound to the brain |
+| 016 | Worker writes via shared code + direct DB | no VPC |
+| 017 | Connectors poll, not push | org policy blocks external push SA; latency irrelevant |
+| 018 | Keyless DWD (signJwt) | no JSON keys |
+| 019 | One dedicated SA per connector | blast-radius isolation |
+| 020 | Curated scope (Gmail label / Drive folder) | low-noise, human decides what's remembered |
+| 021 | Drive v0 = Google Docs only, folder-scoped | simple first cut; binaries deferred |
+| 022 | Query agent is **read-only** over the graph | answers, never mutates memory |
+| 023 | `ModelProvider` swap seam; loop provider-agnostic | A/B + future flexibility, proven by 3 real providers |
+| 024 | Agent models via Vertex, keyless (incl. Kimi MaaS, not Moonshot key) | no external keys for inference; data stays in-GCP |
+| 025 | Gemini = default working agent model | Claude/Kimi gated on Model Garden enable |
+| 026 | Bounded agent loop (`MAX_ROUNDS=5`) | no runaway tool loops / cost |
 
----
+## Deferred (intentional)
 
-## How This Framework Was Built
+- Connectors: **Plane**, Slack, PostHog (same poller shape).
+- Drive: PDFs / Sheets / Slides extraction (v1).
+- Interaction: Slack / email adapters (call `/ask`); A/B harness across providers.
+- Agent: enable Claude Sonnet 4.6 + Kimi K2 Thinking in Model Garden for the full rotation; deploy `/ask` to the cloud service (currently proven locally).
+- Hardening: AlloyDB, multi-region, RLS namespaces, private-IP Cloud SQL, low-latency worker.
 
-The framework was developed through a process that is itself a proof of concept for the open standard model.
+## Local dev & deploy
 
-**Published:** March 2026. "Toward a Regulatory Validation Framework for AI-Assisted Clinical Trial Activation and Execution." [Available on NexTrial Dispatch](https://open.substack.com/pub/steventhompsonai/p/toward-a-regulatory-validation-framework).
+Tests (need Postgres binaries): `sudo apt-get install -y postgresql`; `export PATH="$(ls -d /usr/lib/postgresql/*/bin|tail -1):$PATH"`; `pip install -r requirements.txt`; `PYTHONPATH=. python -m pytest -q`.
 
-**Challenged:** Dominique Chesnais, senior GCP/GVP consultant, publicly challenged 8 specific points against the EU AI Act and GxP principles. Three gaps were acknowledged (Article 9 risk management, Article 10 data governance, rubber-stamp concern). Three were addressed in the architecture (binary logic, self-healing loop, empirical validation). Three required specification updates. The challenge made the framework stronger. The full response is in [/co-development/dominique-critique-response.md](co-development/dominique-critique-response.md).
+Verify against cloud DB: `cloud-sql-proxy <conn>` then point `DATABASE_URL` at `127.0.0.1:5432`, `alembic upgrade head`, `uvicorn app.main:app`.
 
-**Confirmed:** Brian Burke, inventor of the ALIGN-AI Framework for EU AI Act conformity assessment, reviewed the proof certificate specification and noted its operational precision in addressing Articles 11/13/14. ALIGN-AI operates as upstream governance to the three-gate architecture — complementary, not competitive.
+Deploy service (also rebuilds the image the Jobs reuse): `gcloud run deploy company-brain --source . --ingress internal --no-allow-unauthenticated …` (see infra inventory for SA/secret/env).
 
-**Co-developed:** Gourav Pandey, Lead AI Researcher at Takeda R&D Quality, engaged on GxP validation integration. Working session with 15 practitioners held May 2026. Findings are in [/co-development/working-session-findings.md](co-development/working-session-findings.md).
-
-**Presented:** DIA 2026 Global Annual Meeting. Abstract ID 116114. Poster Session II, Tuesday June 16, 11:30 AM–1:30 PM. Pennsylvania Convention Center, Philadelphia.
-
----
-
-## Lifecycle Scope
-
-The framework governs AI verification across the clinical trial lifecycle:
-
-**Trial Activation (Pre-IRB → First Patient In)**  
-Protocol ingestion, regulatory document generation, IRB submission, site qualification, activation timeline prediction.
-
-**Trial Execution (First Patient In → First Patient Out)**  
-Plan-vs-actual tracking, deviation detection, enrollment velocity monitoring, continuous verification. [Execution scope specification: forthcoming v2]
-
-One verification architecture. Two phases. The proof obligation is the same in both.
-
----
-
-## Open Questions
-
-Six questions are explicitly unresolved in v1.0 and are active for community input:
-
-1. **Cold-start problem** — minimum data for RBQM risk classification at new sites
-2. **Dynamic risk reassessment** — Article 9(e) triggers during execution
-3. **Rubber-stamp prevention** — distinguishing substantive attestation in the audit trail
-4. **Composite risk matrix logic** — threshold rule vs. additive scoring
-5. **Adapter certification** — third-party conformance process
-6. **Multi-jurisdiction documents** — per-jurisdiction calls vs. rollup certificate
-
-Details and current positions: [/co-development/open-questions.md](co-development/open-questions.md)
-
----
-
-## Contributing
-
-This standard improves through adversarial engagement. Challenge a claim. Add a regulatory mapping. Propose a test case. Submit a working session finding.
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the full process.
-
-The next co-development working session is open to any practitioner. Register via GitHub Discussions.
-
----
-
-## Citation
-
-If you use this framework in research, regulatory submissions, or published work:
-
-```
-Thompson, S. (2026). Regulatory Validation Framework for AI in Clinical Trials (v1.0).
-NexTrial.ai. https://github.com/nextrial-ai/nextrial-regulatory-framework
-DOI: [pending]
-```
-
-A preprint is registered at SSRN (ID 6339698). The framework was presented at DIA 2026 (Abstract 116114). The co-development process with AI assistance is documented and acknowledged.
-
----
-
-## License
-
-Apache 2.0. See [LICENSE](LICENSE).
-
-This license includes a patent grant. Contributors grant all users of this repository a license under their patent claims that are necessarily infringed by their contribution. See [BOUNDARY.md](BOUNDARY.md) for the relationship between this open standard and NexTrial.ai's patent portfolio.
-
----
-
-## Contact
-
-**Framework questions:** Open a GitHub Issue.  
-**Co-development:** Open a GitHub Discussion.  
-**Implementation questions:** framework@nextrial.ai  
-
----
-
-*AI-Assisted — Human Review Required*  
-*NexTrial.ai · nextrial.ai · DIA 2026 Abstract 116114*
-
----
-
-**Provably right, not probably right.**
+See `AGENTS.md` for how changes are made here.
