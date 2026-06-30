@@ -62,9 +62,9 @@ echo "✓ LICENSE created (stub — replace with full Apache 2.0 text)"
 cat > BOUNDARY.md << 'EOF'
 # BOUNDARY.md — Open Standard vs. Protected Implementation
 
-**Status:** DRAFT — Pending Alex Lee review before publication  
-**Document:** BOUNDARY-001  
-**Version:** 1.0 DRAFT  
+**Status:** Published
+**Document:** BOUNDARY-001
+**Version:** 3.0
 
 ---
 
@@ -80,7 +80,7 @@ This document defines the explicit boundary between:
 
 The following are published as open standard:
 
-- Proof Certificate Specification (four-property schema)
+- Proof Certificate Specification (eight-property schema)
 - Three-Gate Verification Architecture Specification
 - RBQM Pre-Verification Layer Specification
 - Site AI Utilization Disclosure Specification
@@ -96,11 +96,11 @@ The following are published as open standard:
 The following are NOT included in this repository and are protected:
 
 - CFM-1: Functional regulatory compliance adapter implementations
-- PPEE: Physics-informed patient eligibility prediction engine
-- RLM: Recursive Lineage Memory architecture and implementation
-- SPEO: Structured Protocol Execution Object implementation
+- The predictive eligibility layer (implementation internals)
+- The lineage-memory subsystem (architecture and implementation)
+- Internal protocol-structuring representations (implementation)
 - Production deployment infrastructure
-- Trained model weights and LoRA adapters
+- Proprietary model artifacts (trained weights, adapters, and fine-tuning data)
 - Proprietary regulatory rule sets embedded in functional adapters
 
 ---
@@ -114,11 +114,10 @@ implementations listed above.
 
 ---
 
-*DRAFT — Alex Lee (IP & Regulatory Strategy Advisor) to review before publication.*  
-*Do not publish this file until review is complete.*
+*The open standard is published under Apache 2.0. The protected implementations listed above remain proprietary to NexTrial.ai.*
 EOF
 
-echo "✓ BOUNDARY.md created (DRAFT — Alex Lee review required)"
+echo "✓ BOUNDARY.md created"
 
 # -----------------------------------------------------------------------------
 # 3. SPECS — completed files (copy content from Claude outputs)

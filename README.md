@@ -127,7 +127,7 @@ The standard belongs to the industry.
 
 ## What Is Protected
 
-The production implementations that satisfy this standard — the functional regulatory compliance adapters, the physics-informed eligibility verification, the recursive memory architecture, the deployment infrastructure, and the clinical validation datasets — remain proprietary to NexTrial.
+The production implementations that satisfy this standard — the functional regulatory compliance adapters, the predictive eligibility layer, the lineage-memory subsystem, internal protocol-structuring representations, the deployment infrastructure, and proprietary model artifacts (trained weights, adapters, and fine-tuning data) — remain proprietary to NexTrial.
 
 The boundary is explicit. See [BOUNDARY.md](BOUNDARY.md) for the complete delineation.
 
