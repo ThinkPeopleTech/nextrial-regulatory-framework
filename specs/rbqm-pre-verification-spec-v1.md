@@ -1,5 +1,12 @@
 # Risk-Based Quality Management Pre-Verification Layer Specification v1.0
 
+> Superseded by v3.0. Retained for historical reference.
+> See [rbqm-pre-verification-spec-v3.md](rbqm-pre-verification-spec-v3.md) — the
+> v3.0 pre-gate uses the two-factor (model influence × decision consequence) model
+> and binds the frozen class into Property 5 by taxonomy identifier
+> `nxt-rbqm-risk-taxonomy@1.0`. The three operational dimensions below are retained
+> as input to that classification.
+
 **Repository:** nextrial-regulatory-framework  
 **Document:** RBQM-SPEC-001  
 **Version:** 1.0  

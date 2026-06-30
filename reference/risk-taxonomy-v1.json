@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nextrial.ai/schemas/risk-taxonomy-v1.json",
+  "title": "NexTrial RBQM Risk Taxonomy",
+  "description": "Named, versioned risk taxonomy assigned by the RBQM pre-gate and frozen into Property 5 of the proof certificate. Rows are taken from the framework paper (regulatory-validation-framework-v3.md) §4.3 only. This document is both the taxonomy of record and a JSON Schema resource: $defs.riskClass is referenced by $ref from proof-certificate.schema.json.",
+  "taxonomy_id": "nxt-rbqm-risk-taxonomy",
+  "taxonomy_version": "1.0",
+  "canonical_reference": "nxt-rbqm-risk-taxonomy@1.0",
+  "source": "regulatory-validation-framework-v3.md §3.0, §4.3",
+
+  "$defs": {
+    "riskClass": {
+      "title": "Risk class",
+      "description": "The four risk classes of the RBQM pre-gate, frozen at decision time.",
+      "type": "string",
+      "enum": ["CRITICAL", "HIGH", "MODERATE", "LOW"]
+    }
+  },
+
+  "classes": [
+    {
+      "risk_class": "CRITICAL",
+      "failure_consequence": "Immediate patient-safety or regulatory risk",
+      "substitution": "PROHIBITED_BY_CONSTRUCTION",
+      "reverification_cadence": "Every certificate",
+      "minimum_gate3_attestation": 2
+    },
+    {
+      "risk_class": "HIGH",
+      "failure_consequence": "Patient-experience harm or material protocol deviation",
+      "substitution": "PROHIBITED_BY_CONSTRUCTION",
+      "reverification_cadence": "Daily",
+      "minimum_gate3_attestation": 2
+    },
+    {
+      "risk_class": "MODERATE",
+      "failure_consequence": "Operational; independent verification still required",
+      "substitution": "PERMITTED_UNDER_PROPERTY_8",
+      "reverification_cadence": "Weekly",
+      "minimum_gate3_attestation": 1
+    },
+    {
+      "risk_class": "LOW",
+      "failure_consequence": "Administrative or logistical; no safety or regulatory consequence",
+      "substitution": "PERMITTED",
+      "reverification_cadence": "At deployment, then monthly",
+      "minimum_gate3_attestation": 1
+    }
+  ],
+
+  "assignment": {
+    "description": "Two-factor logic from §3.0: model influence (axis) x decision consequence (axis), each scored high/medium/low, mapped to one of the four classes.",
+    "axes": ["model_influence", "decision_consequence"],
+    "matrix": {
+      "high_influence":   { "low_consequence": "MODERATE", "medium_consequence": "HIGH",     "high_consequence": "CRITICAL" },
+      "medium_influence": { "low_consequence": "LOW",      "medium_consequence": "MODERATE", "high_consequence": "HIGH" },
+      "low_influence":    { "low_consequence": "LOW",      "medium_consequence": "LOW",      "high_consequence": "MODERATE" }
+    }
+  }
+}

@@ -1,0 +1,316 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nextrial.ai/schemas/proof-certificate.schema.json",
+  "title": "Proof Certificate",
+  "description": "Eight-property proof certificate. Model-architecture-neutral: nothing in this schema references a model, weights, adapters, training data, or any architectural internal. Derived from regulatory-validation-framework-v3.md §4 and specs/proof-certificate-spec-v3.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "certificate_id",
+    "certificate_version",
+    "generation_timestamp",
+    "determination_context",
+    "property_1_rule_invoked",
+    "property_2_values_verified",
+    "property_3_verification_operation",
+    "property_4_boundary_statement",
+    "property_5_risk_classification",
+    "property_6_human_reviewer_identity",
+    "property_7_override_and_escalation",
+    "property_8_evidence_not_substitution",
+    "result"
+  ],
+
+  "properties": {
+    "certificate_id": {
+      "type": "string",
+      "description": "Globally unique, immutable identifier (UUID recommended)."
+    },
+    "certificate_version": {
+      "type": "string",
+      "description": "Schema/profile version this certificate conforms to.",
+      "const": "3.0"
+    },
+    "generation_timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 UTC, set at generation time, immutable."
+    },
+
+    "determination_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["determination_type", "jurisdiction", "phase"],
+      "properties": {
+        "determination_type": { "type": "string" },
+        "protocol_id": { "type": "string" },
+        "protocol_version": { "type": "string" },
+        "site_id": { "type": "string", "description": "Anonymized site identifier." },
+        "jurisdiction": {
+          "type": "string",
+          "description": "ISO 3166-1 alpha-2, or 'EU'.",
+          "pattern": "^[A-Z]{2}$"
+        },
+        "phase": { "type": "string", "enum": ["ACTIVATION", "EXECUTION"] }
+      }
+    },
+
+    "property_1_rule_invoked": {
+      "type": "object",
+      "description": "P1. The specific rule, by source, citation, and version.",
+      "additionalProperties": false,
+      "required": ["rule_source", "citation", "ruleset_snapshot_version", "effective_date"],
+      "properties": {
+        "rule_source": {
+          "type": "string",
+          "enum": ["REGULATION", "PROTOCOL", "SOP", "JURISDICTION"]
+        },
+        "citation": {
+          "type": "string",
+          "description": "Specific provision at section/subsection or criterion level. Not a regulation title alone."
+        },
+        "description": { "type": "string" },
+        "ruleset_snapshot_version": { "type": "string" },
+        "effective_date": { "type": "string", "format": "date" }
+      }
+    },
+
+    "property_2_values_verified": {
+      "type": "object",
+      "description": "P2. The exact values checked, listed not summarized, each attributable to source.",
+      "additionalProperties": false,
+      "required": ["values"],
+      "properties": {
+        "values": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["value_id", "label", "observed_value", "source_origin", "acquisition_timestamp", "attribution_chain"],
+            "properties": {
+              "value_id": { "type": "string" },
+              "label": { "type": "string" },
+              "observed_value": { "type": ["string", "number", "boolean", "null"] },
+              "unit": { "type": ["string", "null"] },
+              "threshold_or_condition": { "type": "string" },
+              "source_origin": { "type": "string", "description": "Origin document / field path." },
+              "acquisition_timestamp": { "type": "string", "format": "date-time" },
+              "attribution_chain": {
+                "type": "array",
+                "minItems": 1,
+                "items": { "type": "string" },
+                "description": "ALCOA+ attribution chain from value to source."
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "property_3_verification_operation": {
+      "type": "object",
+      "description": "P3. The deterministic procedure that returned pass/fail, expressible as a formal predicate.",
+      "additionalProperties": false,
+      "required": ["operation_id", "operation_version", "predicate", "result", "deterministic"],
+      "properties": {
+        "operation_id": { "type": "string" },
+        "operation_version": { "type": "string" },
+        "predicate": { "type": "string", "description": "The formal predicate, e.g. 'hba1c < 9.0'." },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["label", "value"],
+            "properties": {
+              "label": { "type": "string" },
+              "value": { "type": ["string", "number", "boolean", "null"] },
+              "source_value_id": { "type": "string" }
+            }
+          }
+        },
+        "result": { "type": "string", "enum": ["PASS", "FAIL", "REQUIRES_REVIEW"] },
+        "deterministic": { "type": "boolean", "const": true }
+      }
+    },
+
+    "property_4_boundary_statement": {
+      "type": "object",
+      "description": "P4. Four sub-objects: verified scope, reserved scope, reviewer obligations, escalation criteria.",
+      "additionalProperties": false,
+      "required": ["verified_scope", "reserved_scope", "reviewer_obligations", "escalation_criteria"],
+      "properties": {
+        "verified_scope": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["rules_evaluated"],
+          "properties": {
+            "rules_evaluated": { "type": "array", "minItems": 1, "items": { "type": "string" } }
+          }
+        },
+        "reserved_scope": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["factors"],
+          "properties": {
+            "factors": { "type": "array", "minItems": 1, "items": { "type": "string" } }
+          }
+        },
+        "reviewer_obligations": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["obligations"],
+          "properties": {
+            "obligations": { "type": "array", "minItems": 1, "items": { "type": "string" } }
+          }
+        },
+        "escalation_criteria": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["conditions", "destination"],
+          "properties": {
+            "conditions": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+            "destination": { "type": "string", "description": "Where escalation routes to." }
+          }
+        }
+      }
+    },
+
+    "property_5_risk_classification": {
+      "type": "object",
+      "description": "P5. Risk class assigned by the RBQM pre-gate and frozen at decision time, with a named, versioned taxonomy.",
+      "additionalProperties": false,
+      "required": ["risk_class", "taxonomy_id", "taxonomy_version", "frozen_at", "gate_rigor", "reverification_cadence"],
+      "properties": {
+        "risk_class": { "$ref": "https://nextrial.ai/schemas/risk-taxonomy-v1.json#/$defs/riskClass" },
+        "taxonomy_id": { "type": "string", "const": "nxt-rbqm-risk-taxonomy" },
+        "taxonomy_version": { "type": "string", "const": "1.0" },
+        "frozen_at": { "type": "string", "format": "date-time" },
+        "gate_rigor": { "type": "string" },
+        "reverification_cadence": { "type": "string" }
+      }
+    },
+
+    "property_6_human_reviewer_identity": {
+      "type": "object",
+      "description": "P6. Identity and role of the human who attested, bound to the attestation.",
+      "additionalProperties": false,
+      "required": ["reviewer_name", "reviewer_role", "attestation_level", "attestation_binding"],
+      "properties": {
+        "reviewer_name": { "type": "string" },
+        "reviewer_role": { "type": "string" },
+        "attestation_level": {
+          "type": "integer",
+          "enum": [1, 2],
+          "description": "1 = qualified reviewer; 2 = responsible PI or delegated equivalent. No Level 3."
+        },
+        "attestation_binding": { "type": "string", "description": "Signature reference binding identity to attestation." }
+      }
+    },
+
+    "property_7_override_and_escalation": {
+      "type": "object",
+      "description": "P7. The full human decision path.",
+      "additionalProperties": false,
+      "required": ["outcome"],
+      "properties": {
+        "outcome": {
+          "type": "string",
+          "enum": ["ACCEPT", "REJECT", "ASK"],
+          "description": "Whether the human accepted, rejected, or asked for revision."
+        },
+        "challenge": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["raised"],
+          "properties": {
+            "raised": { "type": "boolean" },
+            "description": { "type": "string" },
+            "resolution": { "type": "string" },
+            "mitigate_and_rerun": { "type": "boolean" }
+          }
+        },
+        "override": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["occurred"],
+          "properties": {
+            "occurred": { "type": "boolean" },
+            "rationale": { "type": "string", "description": "Required basis when an override occurred." }
+          },
+          "if": { "properties": { "occurred": { "const": true } }, "required": ["occurred"] },
+          "then": { "required": ["occurred", "rationale"] }
+        },
+        "escalation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["criteria_met"],
+          "properties": {
+            "criteria_met": { "type": "boolean" },
+            "destination": { "type": "string" }
+          },
+          "if": { "properties": { "criteria_met": { "const": true } }, "required": ["criteria_met"] },
+          "then": { "required": ["criteria_met", "destination"] }
+        }
+      }
+    },
+
+    "property_8_evidence_not_substitution": {
+      "type": "object",
+      "description": "P8. Explicit declaration that the operation is evidence, not a substitution. Defaults to EVIDENCE.",
+      "additionalProperties": false,
+      "required": ["mode", "declaration"],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["EVIDENCE", "SUBSTITUTION"],
+          "default": "EVIDENCE"
+        },
+        "substitution_authorized": {
+          "type": "boolean",
+          "description": "Must be true for mode = SUBSTITUTION (and only permitted for MODERATE/LOW)."
+        },
+        "declaration": { "type": "string" }
+      },
+      "if": { "properties": { "mode": { "const": "SUBSTITUTION" } }, "required": ["mode"] },
+      "then": { "required": ["mode", "declaration", "substitution_authorized"], "properties": { "substitution_authorized": { "const": true } } }
+    },
+
+    "result": { "type": "string", "enum": ["PASS", "FAIL", "REQUIRES_REVIEW"] },
+
+    "lineage": {
+      "type": "object",
+      "description": "Optional bi-temporal lineage and supersession references.",
+      "properties": {
+        "state_fingerprint": { "type": "string", "description": "Signed hash of the certified configuration (state binding)." },
+        "valid_time": { "type": "string", "format": "date-time" },
+        "transaction_time": { "type": "string", "format": "date-time" },
+        "supersedes_certificate_id": { "type": ["string", "null"] },
+        "certificate_hash": { "type": "string", "description": "FIPS-approved hash over the certificate contents." }
+      }
+    }
+  },
+
+  "allOf": [
+    {
+      "title": "CRITICAL or HIGH risk class prohibits SUBSTITUTION by construction",
+      "if": {
+        "required": ["property_5_risk_classification"],
+        "properties": {
+          "property_5_risk_classification": {
+            "required": ["risk_class"],
+            "properties": { "risk_class": { "enum": ["CRITICAL", "HIGH"] } }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "property_8_evidence_not_substitution": {
+            "properties": { "mode": { "const": "EVIDENCE" } }
+          }
+        }
+      }
+    }
+  ]
+}

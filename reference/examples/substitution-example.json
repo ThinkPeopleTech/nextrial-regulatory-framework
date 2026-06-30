@@ -1,0 +1,108 @@
+{
+  "certificate_id": "cert-substitution-0001",
+  "certificate_version": "3.0",
+  "generation_timestamp": "2026-06-30T12:05:00Z",
+  "determination_context": {
+    "determination_type": "regulatory_document_completeness",
+    "jurisdiction": "US",
+    "phase": "ACTIVATION"
+  },
+  "property_1_rule_invoked": {
+    "rule_source": "SOP",
+    "citation": "SOP-DM-014 step 4: Form FDA 1572 box 1 (name and address) present",
+    "ruleset_snapshot_version": "SOP-DM-014-r3",
+    "effective_date": "2026-03-01"
+  },
+  "property_2_values_verified": {
+    "values": [
+      {
+        "value_id": "v1",
+        "label": "form_1572_box_1_present",
+        "observed_value": true,
+        "threshold_or_condition": "must be present and non-empty",
+        "source_origin": "submission.form_1572.box_1 (field-presence check)",
+        "acquisition_timestamp": "2026-06-30T12:04:00Z",
+        "attribution_chain": [
+          "submission package index",
+          "form_1572.box_1"
+        ]
+      }
+    ]
+  },
+  "property_3_verification_operation": {
+    "operation_id": "op-substitution-1",
+    "operation_version": "1.0",
+    "predicate": "present(form_1572.box_1)",
+    "inputs": [
+      {
+        "label": "form_1572_box_1_present",
+        "value": true,
+        "source_value_id": "v1"
+      }
+    ],
+    "result": "PASS",
+    "deterministic": true
+  },
+  "property_4_boundary_statement": {
+    "verified_scope": {
+      "rules_evaluated": [
+        "presence of Form FDA 1572 box 1 per SOP-DM-014 step 4"
+      ]
+    },
+    "reserved_scope": {
+      "factors": [
+        "substantive correctness of the address content"
+      ]
+    },
+    "reviewer_obligations": {
+      "obligations": [
+        "confirm the substitution authorization is appropriate for this LOW/MODERATE administrative check"
+      ]
+    },
+    "escalation_criteria": {
+      "conditions": [
+        "any presence check returns ABSENT"
+      ],
+      "destination": "Regulatory Affairs Lead"
+    }
+  },
+  "property_5_risk_classification": {
+    "risk_class": "LOW",
+    "taxonomy_id": "nxt-rbqm-risk-taxonomy",
+    "taxonomy_version": "1.0",
+    "frozen_at": "2026-06-30T12:05:00Z",
+    "gate_rigor": "light",
+    "reverification_cadence": "At deployment, then monthly"
+  },
+  "property_6_human_reviewer_identity": {
+    "reviewer_name": "Reviewer B",
+    "reviewer_role": "Qualified Reviewer",
+    "attestation_level": 1,
+    "attestation_binding": "sig:sha256:substitution-binding-ref"
+  },
+  "property_7_override_and_escalation": {
+    "outcome": "ACCEPT",
+    "challenge": {
+      "raised": false
+    },
+    "override": {
+      "occurred": false
+    },
+    "escalation": {
+      "criteria_met": false
+    }
+  },
+  "property_8_evidence_not_substitution": {
+    "mode": "SUBSTITUTION",
+    "declaration": "Substitution authorized for this LOW administrative presence check under Property 8. The human verification burden is relocated and made inspectable, not removed. Substitution is unavailable for CRITICAL/HIGH.",
+    "substitution_authorized": true
+  },
+  "result": "PASS",
+  "lineage": {
+    "state_fingerprint": "sha256:state-fingerprint-substitution",
+    "valid_time": "2026-06-30T12:05:00Z",
+    "transaction_time": "2026-06-30T12:05:01Z",
+    "supersedes_certificate_id": null,
+    "certificate_hash": "sha256:certificate-hash-substitution"
+  }
+}

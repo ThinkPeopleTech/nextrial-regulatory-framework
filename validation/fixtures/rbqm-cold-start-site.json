@@ -1,5 +1,106 @@
 {
   "_fixture": "rbqm-cold-start-site",
-  "_status": "PLACEHOLDER",
-  "_note": "See test-harness-v1.md for expected structure"
+  "_expect": "PASS",
+  "_exercises": "Conforming MODERATE certificate sized conservatively under cold-start",
+  "certificate": {
+    "certificate_id": "cert-fixture",
+    "certificate_version": "3.0",
+    "generation_timestamp": "2026-06-30T12:00:00Z",
+    "determination_context": {
+      "determination_type": "eligibility_criterion",
+      "jurisdiction": "US",
+      "phase": "ACTIVATION"
+    },
+    "property_1_rule_invoked": {
+      "rule_source": "PROTOCOL",
+      "citation": "Protocol AMG-301 v2.1, Section 7.3.2, Inclusion Criterion 3",
+      "ruleset_snapshot_version": "AMG-301-v2.1",
+      "effective_date": "2026-04-01"
+    },
+    "property_2_values_verified": {
+      "values": [
+        {
+          "value_id": "v1",
+          "label": "HbA1c",
+          "observed_value": 7.2,
+          "unit": "%",
+          "threshold_or_condition": "< 9.0",
+          "source_origin": "labs.hba1c (Central Lab report reference)",
+          "acquisition_timestamp": "2026-04-15T09:00:00Z",
+          "attribution_chain": [
+            "Central Lab report reference",
+            "labs.hba1c"
+          ]
+        }
+      ]
+    },
+    "property_3_verification_operation": {
+      "operation_id": "op-1",
+      "operation_version": "1.0",
+      "predicate": "hba1c < 9.0",
+      "inputs": [
+        {
+          "label": "hba1c",
+          "value": 7.2,
+          "source_value_id": "v1"
+        }
+      ],
+      "result": "PASS",
+      "deterministic": true
+    },
+    "property_4_boundary_statement": {
+      "verified_scope": {
+        "rules_evaluated": [
+          "Inclusion Criterion 3 threshold"
+        ]
+      },
+      "reserved_scope": {
+        "factors": [
+          "clinical interpretation of concurrent medication"
+        ]
+      },
+      "reviewer_obligations": {
+        "obligations": [
+          "confirm lab value against source"
+        ]
+      },
+      "escalation_criteria": {
+        "conditions": [
+          "value within 5% of threshold"
+        ],
+        "destination": "Medical Monitor"
+      }
+    },
+    "property_5_risk_classification": {
+      "risk_class": "MODERATE",
+      "taxonomy_id": "nxt-rbqm-risk-taxonomy",
+      "taxonomy_version": "1.0",
+      "frozen_at": "2026-06-30T12:00:00Z",
+      "gate_rigor": "standard",
+      "reverification_cadence": "Weekly"
+    },
+    "property_6_human_reviewer_identity": {
+      "reviewer_name": "Reviewer A",
+      "reviewer_role": "Qualified Reviewer",
+      "attestation_level": 1,
+      "attestation_binding": "sig:sha256:ref"
+    },
+    "property_7_override_and_escalation": {
+      "outcome": "ACCEPT",
+      "challenge": {
+        "raised": false
+      },
+      "override": {
+        "occurred": false
+      },
+      "escalation": {
+        "criteria_met": false
+      }
+    },
+    "property_8_evidence_not_substitution": {
+      "mode": "EVIDENCE",
+      "declaration": "Evidence presented to the reviewer, not a substitution."
+    },
+    "result": "PASS"
+  }
 }

@@ -79,7 +79,7 @@
         {
           "article": "Art. 10(5)",
           "requirement": "To the extent strictly necessary, high-risk AI providers may process special categories of personal data (including health data) for bias monitoring, detection, and correction.",
-          "framework_mapping": "Zero PHI constraint — proof certificate framework does not process PHI; PPEE air-gap architecture",
+          "framework_mapping": "Zero PHI constraint — proof certificate framework does not process PHI; predictive-eligibility-layer air-gap architecture",
           "severity_if_absent": "INFO"
         }
       ]

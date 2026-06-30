@@ -1,5 +1,9 @@
 # Lean4 Proof Property Definitions v1.0
 
+> Superseded by v3.0. Retained for historical reference.
+> See [proof-properties-v3.md](proof-properties-v3.md) and the buildable
+> [`ProofCertificate.lean`](ProofCertificate.lean).
+
 **Repository:** nextrial-regulatory-framework  
 **Document:** LEAN4-PROPS-001  
 **Version:** 1.0  

@@ -1,5 +1,9 @@
 # Site AI Utilization Disclosure Specification v1.0
 
+> Superseded by v3.0. Retained for historical reference.
+> See [site-ai-utilization-disclosure-v3.md](site-ai-utilization-disclosure-v3.md) —
+> the v3.0 model has **two** attestation levels (no Level 3).
+
 **Repository:** nextrial-regulatory-framework  
 **Document:** SAID-SPEC-001  
 **Version:** 1.0  

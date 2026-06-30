@@ -1,236 +1,193 @@
 # Open Questions — Active Co-Development
 
-**Repository:** nextrial-regulatory-framework  
-**Document:** co-development/open-questions.md  
-**Version:** 1.0  
-**Last Updated:** May 2026  
+**Repository:** nextrial-regulatory-framework
+**Document:** co-development/open-questions.md
+**Version:** 3.0
+**Last Updated:** June 2026
+**Source of truth:** [papers/regulatory-validation-framework-v3.md](../papers/regulatory-validation-framework-v3.md), §9
 **AI-Assisted — Human Review Required**
 
 ---
 
-## How This Document Works
+## How this document works
 
-These are the questions the framework cannot yet answer with confidence. They are not oversights — they are the honest edges of the current specification. Each question is tracked with:
-
-- **Origin:** Where the question came from
-- **Stakes:** Why getting it wrong matters
-- **Current Position:** What the spec says now (if anything)
-- **Working Session Status:** What the community has said
-- **Target:** Which version of the framework this question must be resolved for
+These are the questions the framework cannot yet answer with confidence. They are
+not oversights — they are the honest edges of the current specification. The most
+important section of a framework offered for co-development is the one that states
+honestly what it has not closed, and the first question below is the one the
+framework most wants help with.
 
 ---
 
-## Q1 — The Cold-Start Problem in RBQM Risk Classification
+## Q1 — Who certifies the encoding (the central open question)
 
-**Status:** Open — Priority for v2  
-**Origin:** Internal specification development  
-**Document:** RBQM-SPEC-001 §6  
+**Status:** Open — the framework's principal unsolved problem
+**Origin:** Framework paper §9.1; Gate 2 scope (§3.2)
+**Document:** [specs/proof-certificate-spec-v3.md](../specs/proof-certificate-spec-v3.md); [lean4/proof-properties-v3.md](../lean4/proof-properties-v3.md)
 
-**The Question:**  
-What is the minimum site data required for a meaningful RBQM risk classification? When a site has no prior trial history, or when a protocol is in a novel therapeutic area with no comparable precedents, the three-dimension risk classification cannot be reliably computed from historical data.
+**The question.** A regulation is human-language prose. A verification operation is
+a computable check. Between them sits a translation. When a regulation is encoded
+into a computable check, **who certifies that the encoding is faithful, and who is
+accountable when the check is structurally perfect and semantically wrong?** A
+proof can be flawless and still certify an error, because the proof operates on the
+encoding, not on the regulation the encoding was meant to capture.
 
-**Stakes:**  
-If the cold-start default (MEDIUM for insufficient dimensions) is too conservative, it creates operational friction that incentivizes gaming the data. If it's too permissive, it creates unchecked activation risk at exactly the sites and protocols where risk is highest.
+**The risk takes three forms.**
+1. **A threshold drifts from intent.** The encoded number stops matching what the
+   regulation meant, while the check continues to pass.
+2. **Rules correct in isolation interact wrongly.** Each encoded check is right on
+   its own; together they produce a determination none of them intended.
+3. **An encoding is outdated or jurisdictionally mismatched.** The rule has moved,
+   or the wrong jurisdiction's encoding has been applied, and nothing in the
+   structure reveals it.
 
-**Current Position:**  
-Default to MEDIUM for any dimension where data is below threshold. Require pre-activation site visit and document the cold-start condition. Proposed minimum thresholds:
-- Site Risk: ≥ 1 prior completed trial at site
-- Protocol Risk: ≥ 3 prior trials in same therapeutic area
-- Population Risk: ≥ 10 screened patients matching target profile at site
+**Current position.** Gate 2 does not eliminate this risk; it **concentrates** it
+into one inspectable place — the encoding itself — rather than diffusing it through
+a probabilistic system where it cannot be found. The encoding becomes the object
+certification effort should focus on. A standard worth adopting is one whose hardest
+question was named before it was set.
 
-**These thresholds are proposed, not validated.**
-
-**Working Session Input:**  
-*To be populated after May 14, 2026 working session.*
-
-**Target Version:** v2.0
-
----
-
-## Q2 — Dynamic Risk Reassessment Under EU AI Act Article 9(e)
-
-**Status:** Open — Priority for v2  
-**Origin:** Dominique Chesnais adversarial review; EU AI Act Article 9(e)  
-**Document:** RBQM-SPEC-001 §7  
-
-**The Question:**  
-Article 9(e) of the EU AI Act requires that the risk management system address risks that emerge when the AI system is used as intended — including during active deployment. The RBQM pre-verification layer classifies risk at activation. It does not reassess risk dynamically during execution.
-
-What triggers a mid-trial risk reclassification? Who has authority to initiate it? What happens to verification outputs generated under the prior risk classification?
-
-**Stakes:**  
-Without dynamic reassessment, a HIGH-risk condition that emerges after activation (e.g., a CRITICAL deviation, an unexpected PI departure, a safety signal) may not trigger the appropriate escalation in the verification architecture. The system remains technically operational but is no longer calibrated to actual risk.
-
-**Current Position:**  
-The following reassessment triggers are proposed for v2:
-- Site deviation classified as CRITICAL
-- Protocol amendment issued
-- Screen-fail rate exceeds baseline by > 25%
-- PI or study coordinator personnel change
-- Inspection finding at site
-- Enrollment pause > 30 days
-
-**These triggers are design intent, not validated practice.**
-
-**Working Session Input:**  
-*To be populated after May 14, 2026 working session.*
-
-**Target Version:** v2.0
+**One partial candidate answer.** The proof certificate can be bound to an
+already-adopted data standard — represented as a native extension of the Unified
+Study Definitions Model on a USDM ExtensionClass — so machine-interpretability
+across jurisdictions becomes a consequence of the binding. This addresses
+interpretability and binding; it does not by itself certify that the encoding
+captured the regulation's intent, which remains open. (Contributed by Jessica
+Stuyvenberg, Stuyvenberg Advisory Group, drawing on the ARCH Framework, CC BY 4.0.)
 
 ---
 
-## Q3 — Rubber-Stamp Prevention in Attestation
+## Q2 — Cross-agency proof-certificate standardization
 
-**Status:** Open — Active  
-**Origin:** Dominique Chesnais adversarial review  
-**Document:** SAID-SPEC-001 §5.2  
+**Status:** Open
+**Origin:** Framework paper §9.2
 
-**The Question:**  
-Level 2 Independent Verification Attestation requires that the PI independently verify the AI output against source documents. But the audit trail only records that attestation occurred — not whether the review was substantive.
-
-How do we distinguish a genuine independent verification (30+ minutes of cross-referencing) from a perfunctory sign-off (3 seconds of scrolling)?
-
-**Stakes:**  
-If rubber-stamp attestation is indistinguishable in the audit trail from substantive review, the Level 2 attestation requirement becomes nominal. The human oversight guarantee that satisfies EU AI Act Article 14 is compromised.
-
-**Current Position:**  
-The specification requires that attestation documentation include evidence of review (certificate ID, lineage trace, cross-referenced source documents). But it does not specify a minimum review duration or a way to verify that the cross-references were actually examined.
-
-**Proposed Approaches (for community debate):**
-1. Require a minimum review time to be logged (problematic — trivially gamed)
-2. Require the reviewer to resolve at least one flagged field path in the certificate (requires at least engagement with content)
-3. Require a structured checklist confirming specific review steps were completed
-4. Accept that procedural compliance is the boundary of what the specification can enforce, and that substantive review is a governance responsibility beyond the spec
-
-**Working Session Input:**  
-*To be populated after May 14, 2026 working session.*
-
-**Target Version:** v1.1 — important enough for near-term resolution
+What minimum property set would regulators — beginning with the FDA, the EU,
+ANVISA, and the CDSCO, and extending to any agency willing to participate — agree
+to accept, and how should a certificate be presented to a reviewer without
+formal-methods expertise? More than one multi-property schema now exists in the
+field; identifying a common interoperability pathway among them, including at the
+clinical-trial data-representation layer, is a standardization question, not a
+settled one.
 
 ---
 
-## Q4 — Composite Risk Matrix Logic: Threshold vs. Additive Scoring
+## Q3 — Risk taxonomy harmonization
 
-**Status:** Open  
-**Origin:** Internal specification development  
-**Document:** RBQM-SPEC-001 §5  
+**Status:** Open
+**Origin:** Framework paper §9.3
+**Document:** [reference/risk-taxonomy-v1.json](../reference/risk-taxonomy-v1.json) (`nxt-rbqm-risk-taxonomy@1.0`)
 
-**The Question:**  
-The current composite risk matrix uses a threshold rule: any HIGH dimension produces a composite HIGH classification. An alternative approach would use additive scoring: three LOW dimensions might score 3, three HIGH dimensions might score 9, and the composite threshold could be set at a calibrated level.
-
-Which approach is more defensible? What are the failure modes of each?
-
-**Stakes:**  
-The threshold approach is conservative — a single HIGH dimension regardless of severity triggers maximum caution. The additive approach allows nuanced risk profiles but introduces calibration complexity. The wrong choice either creates unnecessary activation friction or under-detects genuine high-risk combinations.
-
-**Current Position:**  
-Threshold rule is v1.0 default. It is deliberately conservative. The specification notes that this is subject to community review.
-
-**Arguments for Threshold (current):**
-- Fails safe — a single HIGH is a genuine warning signal
-- Simpler to explain to regulators
-- Harder to manipulate
-- Consistent with ICH Q9 risk management principles
-
-**Arguments for Additive Scoring:**
-- More granular — a site with HIGH deviation history but LOW protocol complexity and LOW population risk may not need the same response as three HIGH dimensions
-- Better mirrors how experienced CRAs actually assess risk
-- Allows sponsor-specific calibration
-
-**Working Session Input:**  
-*To be populated after May 14, 2026 working session.*
-
-**Target Version:** v2.0
+The four-class taxonomy is a proposed baseline. A shared taxonomy across the FDA,
+the EU, ANVISA, and the CDSCO is the foundation the entire cross-jurisdictional
+structure rests on, because if risk classification is the architectural primitive,
+a harmonized taxonomy is what every jurisdiction's rigor and cadence index to. It
+does not yet exist. What process should produce it, and which body should convene
+that process, is open.
 
 ---
 
-## Q5 — Adapter Certification for Third-Party Implementations
+## Q4 — Patient equity at the architectural layer
 
-**Status:** Open  
-**Origin:** Adapter Interface Specification development  
-**Document:** ADAPTER-SPEC-001 §11  
+**Status:** Open — most in need of biostatistical and fairness-research input
+**Origin:** Framework paper §9.4
 
-**The Question:**  
-Should the framework define a certification process for third-party adapters that claim conformance with this specification? If so: who certifies? What does certification require? How is conformance maintained as regulations change?
-
-**Stakes:**  
-Without certification, any party can claim their adapter conforms to this specification without independent verification. This creates liability risk for organizations that adopt a non-conforming adapter believing it satisfies the specification. It also creates reputational risk for the framework.
-
-**Current Position:**  
-No certification process is defined in v1.0. Conformance is voluntary and self-declared. The reference test harness in `/validation/` provides a baseline for self-testing.
-
-**Proposed Approaches:**
-1. No certification — the reference test harness is sufficient; buyer/implementer responsibility
-2. Conformance attestation — self-declaration against a structured checklist, no third-party audit
-3. Community peer review — PRs to the adapter registry require review by at least two independent practitioners
-4. Third-party audit — formal certification by an independent body (which body? at what cost? how updated?)
-
-**Working Session Input:**  
-*To be populated after May 14, 2026 working session.*
-
-**Target Version:** v2.0
+For predictive analysis bearing on eligibility, the procedural layer is addressable
+through escalation and the boundary statement. The architectural layer is harder:
+whether a demographic-accuracy disparity should be handled by disclosing it, by
+defining formal bias boundaries (a verifiable boundary that no protected attribute
+exerted undue influence on a specific prediction beyond clinically justified
+thresholds), or — if the disparity proves structured rather than random — by a
+conditional combination decided in advance. Where those thresholds are drawn should
+be co-developed with regulatory affairs, bioethics review, and patient-community
+engagement.
 
 ---
 
-## Q6 — Multi-Jurisdiction Document Handling
+## Q5 — Cross-jurisdictional mutual recognition
 
-**Status:** Open  
-**Origin:** Adapter Interface Specification development  
-**Document:** ADAPTER-SPEC-001 §11  
+**Status:** Open
+**Origin:** Framework paper §8.1, §9.5
 
-**The Question:**  
-Some clinical trial documents — particularly global protocols and master informed consent frameworks — must simultaneously satisfy multiple regulatory jurisdictions. The current adapter interface requires separate per-jurisdiction calls, producing separate proof certificates. 
-
-Is this sufficient, or does the framework need a "multi-jurisdiction rollup" concept — a composite certificate that aggregates results across jurisdictions?
-
-**Stakes:**  
-Sponsors running global trials need to understand their complete compliance posture, not manage a collection of jurisdiction-specific certificates. Without a rollup concept, the framework creates an administrative burden that may make multi-jurisdiction trials operationally harder.
-
-On the other hand, a rollup certificate risks obscuring jurisdiction-specific failures — a document that is PASS in three jurisdictions but FAIL in a fourth might be misread as broadly compliant.
-
-**Current Position:**  
-Separate per-jurisdiction calls. No rollup concept in v1.0.
-
-**Proposed Approaches:**
-1. Keep separate calls; require the implementing system to aggregate (current)
-2. Define a rollup certificate schema as a fourth specification, separate from the adapter output
-3. Allow multi-jurisdiction input in a single call, but produce separate findings per jurisdiction
-4. Treat multi-jurisdiction compliance as out of scope for this specification
-
-**Working Session Input:**  
-*To be populated after May 14, 2026 working session.*
-
-**Target Version:** v2.0
+The reliance pathway shows the mechanism exists in at least one corridor, where one
+authority can rely on another's assessment rather than duplicate it. Practitioners
+have rated broader cross-jurisdictional acceptance as plausible within a few years,
+conditional on a shared framework, while identifying standardization itself as the
+single biggest barrier. The open question is concrete: what standardization steps
+move mutual recognition from plausible-in-principle to operational-in-practice, and
+which body convenes them.
 
 ---
 
-## Working Session Findings
+## Q6 — Escalation enforcement and arbitration
 
-**Session 1:** May 14, 2026 — 15 practitioners, 60 minutes  
-*Findings to be populated after the session.*
+**Status:** Open
+**Origin:** Framework paper §9.6
+**Document:** [specs/site-ai-utilization-disclosure-v3.md](../specs/site-ai-utilization-disclosure-v3.md) §5 (Property 7)
 
-Results will include:
-- Mentimeter polling data for quantitative questions
-- Qualitative themes from discussion
-- Priority ranking of open questions
-- New questions surfaced by practitioners
-- Any consensus positions reached
-
----
-
-## Resolved Questions
-
-Questions resolved in prior versions of the framework are archived here for historical reference.
-
-**Resolved: Three-Gate vs. Single-Gate Architecture** (resolved in v1.0)  
-Early framework drafts considered a single verification gate. The three-gate architecture was adopted based on the principle that verification, formal proof, and human oversight serve distinct functions that cannot be collapsed without losing the property that makes each gate valuable.
-
-**Resolved: Binary vs. Probabilistic Verification** (resolved in v1.0)  
-The framework considered whether Gate 1 should produce a confidence score rather than a binary determination. Binary was adopted on the principle that regulatory compliance is a binary condition — a document either satisfies a requirement or it does not. Probabilistic outputs create audit trail problems that outweigh their precision benefits.
-
-**Resolved: RBQM Layer Position** (resolved in v1.0 in response to Dominique critique)  
-The original framework had a three-gate architecture with no pre-verification layer. The RBQM layer was added above Gate 1 in response to the EU AI Act Article 9 gap identified in adversarial review. It sits above, not inside, the three gates because it addresses a different question: "Should this activation proceed?" vs. "Is this output compliant?"
+Property 7 records escalation, and a real-time service-level agreement is one
+mechanism for enforcing it. Making that real raises questions the framework does
+not resolve: who arbitrates a breach when a sponsor and a site disagree on whether
+the agreement was met, and what aggregate signal — how many breaches, of what
+severity, over what window — should rise from a private contractual matter to one
+that warrants regulatory attention.
 
 ---
 
-*Open questions are the honest edge of what we know. Contributing your expertise here is how the standard gets stronger.*
+## Q7 — Mapping to the Predetermined Change Control Plan
+
+**Status:** Open
+**Origin:** Framework paper §9.7
+**Document:** [specs/continuous-learning-spec-v3.md](../specs/continuous-learning-spec-v3.md) §4
+
+The Predetermined Change Control Plan framework governs change to AI-enabled device
+software functions. How proof certificates should map onto it is open: when a model
+or adapter is updated, what proof-certificate evidence the plan should require from
+the prior and the updated state, and how the change's risk class determines that
+requirement. The continuous-learning spec proposes the envelope-and-regression
+structure; its formal mapping to the plan is co-development work.
+
+---
+
+## Q8 — Re-correlation of verification substrates under co-evolution
+
+**Status:** Open
+**Origin:** Framework paper §5.6
+**Document:** [specs/continuous-learning-spec-v3.md](../specs/continuous-learning-spec-v3.md) §8
+
+The gates work because their substrates fail differently, and continuous learning
+is precisely what can erode that. If a proposing model and a verifier are retrained
+on the same updated corpus, their failure modes can silently re-correlate, and the
+uncorrelated-by-design property degrades with no visible signal. Evidencing the
+independence of verification substrates over time is, as far as we know, an open
+problem — as are how a state is best defined for divergence detection and how a
+change envelope should be specified and approved.
+
+---
+
+## Carried-forward implementation questions (v1.0)
+
+These narrower questions from the v1.0 specifications remain active and feed the
+questions above:
+
+- **Cold-start in RBQM** ([rbqm-pre-verification-spec-v3.md](../specs/rbqm-pre-verification-spec-v3.md) §6) — the minimum data for confident model-influence / decision-consequence scoring at new sites, novel protocols, and rare populations.
+- **Rubber-stamp prevention** ([site-ai-utilization-disclosure-v3.md](../specs/site-ai-utilization-disclosure-v3.md) §6) — distinguishing substantive review from a perfunctory sign-off in the audit trail.
+- **Adapter certification** ([adapter-interface-spec-v1.md](../specs/adapter-interface-spec-v1.md)) — whether and how third-party adapters are certified for conformance.
+
+---
+
+## Resolved in v3.0
+
+- **Proof-certificate property count.** The four-property / eight-property
+  inconsistency between the README and the spec is resolved: the certificate has
+  **eight** properties, numbered to match the paper and the filing.
+- **Attestation levels.** Resolved to **two** (Level 1 qualified reviewer; Level 2
+  responsible PI or delegated equivalent); the v1.0 third level is superseded.
+- **Validation under continuous learning.** Specified in
+  [continuous-learning-spec-v3.md](../specs/continuous-learning-spec-v3.md):
+  proof binds to a state, not a model.
+
+---
+
+*Open questions are the honest edge of what we know. Contributing your expertise
+here is how the standard gets stronger.*
