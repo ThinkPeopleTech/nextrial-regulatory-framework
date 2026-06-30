@@ -8,6 +8,10 @@
 
 ---
 
+> **Start here (engineers):** [docs/FOR-ENGINEERS.md](docs/FOR-ENGINEERS.md) — a reading guide to the whole repository.
+
+---
+
 ## What This Is
 
 Clinical trial AI is being deployed faster than the regulatory guidance governing it. The result is inconsistent, undocumented, and often unauditable practice — varying by sponsor, CRO, site, and jurisdiction.
