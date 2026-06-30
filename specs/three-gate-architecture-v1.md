@@ -1,5 +1,10 @@
 # Three-Gate Verification Architecture Specification v1.0
 
+> Superseded by v3.0. Retained for historical reference.
+> See [three-gate-architecture-v3.md](three-gate-architecture-v3.md) — the v3.0
+> architecture adds the RBQM pre-gate (frozen into Property 5), Gate 3
+> ACCEPT/REJECT/ASK, and two attestation levels (no Level 3).
+
 **Repository:** nextrial-regulatory-framework  
 **Document:** TGA-SPEC-001  
 **Version:** 1.0  

@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 800 500" role="img" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif">
+  <title>The change cascade and the two clocks</title>
+  <desc>A change to the system or to a referenced rule cascades through the in-force decisions that depend on it, and a decision is defensible today only when both state currency and reference currency hold.</desc>
+
+  <defs>
+    <marker id="a4" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L9,4.5 L0,9 Z" fill="#00D4FF"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="800" height="500" fill="#FFFFFF"/>
+  <text x="400" y="32" text-anchor="middle" font-size="19" font-weight="600" fill="#0A1628">The change cascade and the two clocks</text>
+  <text x="400" y="54" text-anchor="middle" font-size="12.5" fill="#5B6B7B">Proof binds to a state, not a model — and legitimacy needs both clocks current</text>
+
+  <!-- Change event -->
+  <rect x="36" y="92" width="212" height="120" rx="10" fill="#E6EDF3" stroke="#0A1628" stroke-width="1.5"/>
+  <text x="142" y="118" text-anchor="middle" font-size="13.5" font-weight="600" fill="#0A1628">Change event</text>
+  <line x1="58" y1="130" x2="226" y2="130" stroke="#00D4FF" stroke-width="1.5"/>
+  <text x="142" y="152" text-anchor="middle" font-size="11.5" fill="#0A1628">to the system (a new state)</text>
+  <text x="142" y="172" text-anchor="middle" font-size="11.5" fill="#0A1628">— or —</text>
+  <text x="142" y="192" text-anchor="middle" font-size="11.5" fill="#0A1628">to a referenced rule</text>
+
+  <!-- In-force decisions -->
+  <text x="430" y="84" text-anchor="middle" font-size="12" font-weight="600" fill="#0A1628">In-force decisions that depend on it</text>
+  <rect x="320" y="94" width="220" height="34" rx="7" fill="#FFFFFF" stroke="#0A1628" stroke-width="1.3"/>
+  <text x="430" y="116" text-anchor="middle" font-size="11.5" fill="#0A1628">decision · certificate A</text>
+  <rect x="320" y="134" width="220" height="34" rx="7" fill="#FFFFFF" stroke="#0A1628" stroke-width="1.3"/>
+  <text x="430" y="156" text-anchor="middle" font-size="11.5" fill="#0A1628">decision · certificate B</text>
+  <rect x="320" y="174" width="220" height="34" rx="7" fill="#FFFFFF" stroke="#0A1628" stroke-width="1.3"/>
+  <text x="430" y="196" text-anchor="middle" font-size="11.5" fill="#0A1628">decision · certificate C</text>
+
+  <!-- Cascade arrows -->
+  <path d="M248,128 L316,111" fill="none" stroke="#00D4FF" stroke-width="2" marker-end="url(#a4)"/>
+  <path d="M248,152 L316,151" fill="none" stroke="#00D4FF" stroke-width="2" marker-end="url(#a4)"/>
+  <path d="M248,176 L316,191" fill="none" stroke="#00D4FF" stroke-width="2" marker-end="url(#a4)"/>
+
+  <text x="615" y="130" text-anchor="middle" font-size="11.5" fill="#5B6B7B">cascade re-runs verification,</text>
+  <text x="615" y="148" text-anchor="middle" font-size="11.5" fill="#5B6B7B">re-assesses risk class,</text>
+  <text x="615" y="166" text-anchor="middle" font-size="11.5" fill="#5B6B7B">notifies the responsible PI</text>
+
+  <!-- bridge to clocks -->
+  <path d="M430,208 L430,250" fill="none" stroke="#00D4FF" stroke-width="2" marker-end="url(#a4)"/>
+  <text x="430" y="240" text-anchor="middle" font-size="11" fill="#5B6B7B">each decision is tracked on two clocks</text>
+
+  <!-- Clock A: state currency -->
+  <g>
+    <circle cx="210" cy="330" r="44" fill="#FFFFFF" stroke="#0A1628" stroke-width="1.8"/>
+    <line x1="210" y1="330" x2="210" y2="298" stroke="#00D4FF" stroke-width="2.5"/>
+    <line x1="210" y1="330" x2="232" y2="342" stroke="#00D4FF" stroke-width="2.5"/>
+    <circle cx="210" cy="330" r="3" fill="#0A1628"/>
+    <text x="210" y="396" text-anchor="middle" font-size="12.5" font-weight="600" fill="#0A1628">State currency</text>
+    <text x="210" y="414" text-anchor="middle" font-size="11" fill="#5B6B7B">running state still matches</text>
+    <text x="210" y="429" text-anchor="middle" font-size="11" fill="#5B6B7B">its certificate (fingerprint)</text>
+  </g>
+
+  <!-- Clock B: reference currency -->
+  <g>
+    <circle cx="430" cy="330" r="44" fill="#FFFFFF" stroke="#0A1628" stroke-width="1.8"/>
+    <line x1="430" y1="330" x2="430" y2="300" stroke="#00D4FF" stroke-width="2.5"/>
+    <line x1="430" y1="330" x2="406" y2="318" stroke="#00D4FF" stroke-width="2.5"/>
+    <circle cx="430" cy="330" r="3" fill="#0A1628"/>
+    <text x="430" y="396" text-anchor="middle" font-size="12.5" font-weight="600" fill="#0A1628">Reference currency</text>
+    <text x="430" y="414" text-anchor="middle" font-size="11" fill="#5B6B7B">referenced rules still in</text>
+    <text x="430" y="429" text-anchor="middle" font-size="11" fill="#5B6B7B">force (regulation/protocol/SOP)</text>
+  </g>
+
+  <!-- AND convergence: defensible today -->
+  <path d="M254,330 L300,330" fill="none" stroke="#00D4FF" stroke-width="2" marker-end="url(#a4)"/>
+  <path d="M474,330 L300,330" fill="none" stroke="#00D4FF" stroke-width="2"/>
+  <rect x="600" y="300" width="170" height="74" rx="12" fill="#FFFFFF" stroke="#5DFFC7" stroke-width="2.5"/>
+  <text x="685" y="328" text-anchor="middle" font-size="13.5" font-weight="600" fill="#0A1628">Defensible today</text>
+  <text x="685" y="348" text-anchor="middle" font-size="11" fill="#5B6B7B">only when BOTH</text>
+  <text x="685" y="363" text-anchor="middle" font-size="11" fill="#5B6B7B">currencies hold</text>
+  <path d="M474,330 C540,330 540,335 596,335" fill="none" stroke="#5DFFC7" stroke-width="2.5" marker-end="url(#a4)"/>
+  <path d="M254,330 C300,360 540,360 596,348" fill="none" stroke="#5DFFC7" stroke-width="2.5"/>
+</svg>

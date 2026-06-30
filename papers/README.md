@@ -14,15 +14,18 @@ harness, and Lean4 definitions all derive from it and must not contradict it.
 
 ### Figures
 
-Figure 1 (the verification pipeline) is illustrated by
-[`../assets/four_layer_verification_stack.svg`](../assets/four_layer_verification_stack.svg).
-Figures 2 (uncorrelated evidence), 3 (worked proof certificate), and 4 (the
-change cascade and the two clocks) are described in the text and captions; the
-corresponding diagram assets are not yet present in this repository, so the
-image embeds were omitted rather than wired to non-matching or fabricated
-files. The related v1.0 diagrams in [`../assets/`](../assets/)
-(`three-gate-architecture-diagram.svg`, `proof-certificate-schema-diagram.svg`)
-predate the v3.0 eight-property model and are retained for historical reference.
+All four figures are embedded and resolve to assets in [`../assets/`](../assets/):
+
+- Figure 1 — the verification pipeline — `four_layer_verification_stack.svg`
+- Figure 2 — uncorrelated evidence — `figure-2-uncorrelated-evidence.svg`
+- Figure 3 — worked proof certificate — `figure-3-worked-proof-certificate.svg`
+  (illustrative values sourced from `../reference/examples/evidence-example.json`)
+- Figure 4 — the change cascade and the two clocks — `figure-4-two-clocks-change-cascade.svg`
+
+The two v1.0 orphan diagrams (`three-gate-architecture-diagram.svg`,
+`proof-certificate-schema-diagram.svg`) were removed in PR-9: they depicted the
+superseded four-property certificate and three attestation levels with no RBQM
+pre-gate, so they contradicted the v3.0 model rather than illustrating it.
 
 ## Conference material
 
