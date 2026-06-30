@@ -61,6 +61,26 @@ them.
 
 ---
 
+### 2.1 EU AI Act article mapping (Articles 9–14)
+
+The EU AI Act classifies relevant clinical AI as high-risk. The articles map onto
+the architecture directly; in each case the artifact the article requires is one
+the architecture already produces (paper §8.2; surfaced from
+[regulatory-mappings/eu-ai-act.json](../regulatory-mappings/eu-ai-act.json)).
+
+| Article | Obligation | Where it is satisfied |
+|---|---|---|
+| **Article 9** | Risk management system | The RBQM pre-gate is a documented, continuously maintained classification of risk for every output, bounded by a declared context of use, frozen into **Property 5** ([rbqm-pre-verification-spec-v3.md](rbqm-pre-verification-spec-v3.md)). |
+| **Article 10** | Data and data governance | Processing and residency scoped by jurisdiction, kept in-region (LGPD for the Brazil perimeter), de-identified to each jurisdiction's standard; the architecture stores no documents and captures no PHI beyond what a verification operation requires. |
+| **Article 11** | Technical documentation | The **proof certificate** is the technical documentation the article calls for. |
+| **Article 12** | Record-keeping | The signed, append-only, supersede-not-delete **bi-temporal lineage** ([continuous-learning-spec-v3.md](continuous-learning-spec-v3.md)). |
+| **Article 13** | Transparency to deployers | A single certificate projects to each stakeholder at the detail that role needs (Properties **1**, **3**, **4**). |
+| **Article 14** | Human oversight | **Gate 3** attestation and the four-part boundary statement: a named human attests against a record of exactly what was and was not checked (Properties **4**, **6**, **7**, **8**). |
+
+What the Act does not yet specify is how formal verification methods map onto
+conformity assessment; the structural proof of Gate 2 is offered as a candidate
+answer (paper §8.2, §9.1), not a settled one.
+
 ## 3. The Eight Properties and Their Admissibility Tests
 
 Every proof certificate must contain exactly these eight properties. No
