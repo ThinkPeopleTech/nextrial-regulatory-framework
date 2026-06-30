@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 760 772" role="img" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif">
+  <title>Worked proof certificate (illustrative)</title>
+  <desc>A worked proof certificate for an anonymized eligibility determination, with the eight properties populated and the four-part boundary statement. The illustrative values are sourced from reference/examples/evidence-example.json (schema-valid).</desc>
+
+  <rect x="0" y="0" width="760" height="772" fill="#FFFFFF"/>
+  <rect x="14" y="14" width="732" height="744" rx="12" fill="#FFFFFF" stroke="#0A1628" stroke-width="1.5"/>
+
+  <!-- Header -->
+  <rect x="14" y="14" width="732" height="58" rx="12" fill="#0A1628"/>
+  <rect x="14" y="50" width="732" height="22" fill="#0A1628"/>
+  <text x="34" y="44" font-size="17" font-weight="600" fill="#FFFFFF">PROOF CERTIFICATE</text>
+  <text x="726" y="38" text-anchor="end" font-size="11" fill="#00D4FF">eight properties · illustrative values</text>
+  <text x="726" y="55" text-anchor="end" font-size="10" fill="#5DFFC7">schema-valid · reference/examples/evidence-example.json</text>
+
+  <!-- Property rows -->
+  <!-- Row template: band, label (sans), value (mono) -->
+  <g font-size="11.5">
+    <!-- P1 -->
+    <rect x="14" y="80" width="732" height="52" fill="#E6EDF3"/>
+    <text x="34" y="101" font-size="12.5" font-weight="600" fill="#0A1628">P1 · Rule invoked</text>
+    <text x="300" y="99" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#0A1628">PROTOCOL · Protocol AMG-301 v2.1 §7.3.2,</text>
+    <text x="300" y="120" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#0A1628">Inclusion Criterion 3 · snap AMG-301-v2.1 · eff 2026-04-01</text>
+
+    <!-- P2 -->
+    <rect x="14" y="132" width="732" height="40" fill="#FFFFFF"/>
+    <text x="34" y="157" font-size="12.5" font-weight="600" fill="#0A1628">P2 · Values verified</text>
+    <text x="300" y="157" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#0A1628">HbA1c = 7.2% · threshold &lt; 9.0 · src labs.hba1c</text>
+
+    <!-- P3 -->
+    <rect x="14" y="172" width="732" height="40" fill="#E6EDF3"/>
+    <text x="34" y="197" font-size="12.5" font-weight="600" fill="#0A1628">P3 · Verification operation</text>
+    <text x="300" y="197" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#0A1628">predicate: hba1c &lt; 9.0 · result: PASS · deterministic</text>
+
+    <!-- P4 -->
+    <rect x="14" y="212" width="732" height="40" fill="#FFFFFF"/>
+    <text x="34" y="237" font-size="12.5" font-weight="600" fill="#0A1628">P4 · Boundary statement</text>
+    <text x="300" y="237" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#5B6B7B">four parts — see boundary box below</text>
+
+    <!-- P5 -->
+    <rect x="14" y="252" width="732" height="40" fill="#E6EDF3"/>
+    <text x="34" y="277" font-size="12.5" font-weight="600" fill="#0A1628">P5 · Risk classification</text>
+    <text x="300" y="277" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#0A1628">MODERATE · nxt-rbqm-risk-taxonomy@1.0 · cadence Weekly</text>
+
+    <!-- P6 -->
+    <rect x="14" y="292" width="732" height="40" fill="#FFFFFF"/>
+    <text x="34" y="317" font-size="12.5" font-weight="600" fill="#0A1628">P6 · Human reviewer identity</text>
+    <text x="300" y="317" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#0A1628">Reviewer A · Qualified Reviewer · attestation L1</text>
+
+    <!-- P7 -->
+    <rect x="14" y="332" width="732" height="40" fill="#E6EDF3"/>
+    <text x="34" y="357" font-size="12.5" font-weight="600" fill="#0A1628">P7 · Override and escalation</text>
+    <text x="300" y="357" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#0A1628">outcome: ACCEPT · no challenge · no override</text>
+
+    <!-- P8 -->
+    <rect x="14" y="372" width="732" height="40" fill="#FFFFFF"/>
+    <text x="34" y="397" font-size="12.5" font-weight="600" fill="#0A1628">P8 · Evidence, not substitution</text>
+    <text x="300" y="397" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#0A1628">mode: EVIDENCE (not a substitution for the reviewer)</text>
+  </g>
+
+  <!-- Four-part boundary statement -->
+  <rect x="30" y="430" width="700" height="306" rx="10" fill="#FFFFFF" stroke="#00D4FF" stroke-width="2"/>
+  <text x="46" y="456" font-size="13.5" font-weight="600" fill="#0A1628">Boundary statement (Property 4) — four parts</text>
+
+  <text x="46" y="486" font-size="12" font-weight="600" fill="#0A1628">Verified scope</text>
+  <text x="46" y="505" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#5B6B7B">Inclusion Criterion 3 numeric threshold (HbA1c &lt; 9.0)</text>
+
+  <text x="46" y="535" font-size="12" font-weight="600" fill="#0A1628">Reserved scope</text>
+  <text x="46" y="554" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#5B6B7B">clinical interpretation of concurrent medications affecting HbA1c;</text>
+  <text x="46" y="571" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#5B6B7B">contraindications not captured by the eligibility criteria</text>
+
+  <text x="46" y="601" font-size="12" font-weight="600" fill="#0A1628">Reviewer obligations</text>
+  <text x="46" y="620" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#5B6B7B">confirm the lab value against the source report;</text>
+  <text x="46" y="637" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#5B6B7B">confirm no reserved-scope factor applies</text>
+
+  <text x="46" y="667" font-size="12" font-weight="600" fill="#0A1628">Escalation criteria</text>
+  <text x="46" y="686" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#5B6B7B">observed value within 5% of the threshold</text>
+  <text x="46" y="703" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#5B6B7B">→ destination: Medical Monitor</text>
+
+  <text x="714" y="726" text-anchor="end" font-size="10" fill="#5B6B7B">Illustrative values — records what was checked and what was reserved, not a score</text>
+</svg>

@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 800 480" role="img" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif">
+  <title>Uncorrelated evidence</title>
+  <desc>Three independent substrates — a deterministic rule check, a formal structural proof, and a human attestation — fail in different ways and converge on defensible evidence. A confidence score scores its own output and inherits its blind spots.</desc>
+
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L9,4.5 L0,9 Z" fill="#00D4FF"/>
+    </marker>
+    <marker id="arrowMuted" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L9,4.5 L0,9 Z" fill="#5B6B7B"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="800" height="480" fill="#FFFFFF"/>
+  <text x="400" y="34" text-anchor="middle" font-size="19" font-weight="600" fill="#0A1628">Uncorrelated evidence</text>
+  <text x="400" y="56" text-anchor="middle" font-size="12.5" fill="#5B6B7B">Three substrates that fail in different ways converge on defensible evidence</text>
+
+  <!-- Substrate 1: deterministic rule check -->
+  <g>
+    <rect x="40" y="86" width="210" height="118" rx="10" fill="#E6EDF3" stroke="#0A1628" stroke-width="1.5"/>
+    <text x="145" y="112" text-anchor="middle" font-size="13.5" font-weight="600" fill="#0A1628">Deterministic rule check</text>
+    <text x="145" y="131" text-anchor="middle" font-size="11.5" fill="#5B6B7B">Gate 1 · regulatory verification</text>
+    <line x1="64" y1="146" x2="226" y2="146" stroke="#00D4FF" stroke-width="1.5"/>
+    <text x="145" y="166" text-anchor="middle" font-size="11" fill="#0A1628">fails by:</text>
+    <text x="145" y="183" text-anchor="middle" font-size="11" fill="#5B6B7B">applying a wrong encoding</text>
+    <text x="145" y="197" text-anchor="middle" font-size="11" fill="#5B6B7B">of the rule</text>
+  </g>
+
+  <!-- Substrate 2: formal structural proof -->
+  <g>
+    <rect x="295" y="86" width="210" height="118" rx="10" fill="#E6EDF3" stroke="#0A1628" stroke-width="1.5"/>
+    <text x="400" y="112" text-anchor="middle" font-size="13.5" font-weight="600" fill="#0A1628">Formal structural proof</text>
+    <text x="400" y="131" text-anchor="middle" font-size="11.5" fill="#5B6B7B">Gate 2 · machine-checkable</text>
+    <line x1="319" y1="146" x2="481" y2="146" stroke="#00D4FF" stroke-width="1.5"/>
+    <text x="400" y="166" text-anchor="middle" font-size="11" fill="#0A1628">fails by:</text>
+    <text x="400" y="183" text-anchor="middle" font-size="11" fill="#5B6B7B">passing a determination</text>
+    <text x="400" y="197" text-anchor="middle" font-size="11" fill="#5B6B7B">a human would reject</text>
+  </g>
+
+  <!-- Substrate 3: human attestation -->
+  <g>
+    <rect x="550" y="86" width="210" height="118" rx="10" fill="#E6EDF3" stroke="#0A1628" stroke-width="1.5"/>
+    <text x="655" y="112" text-anchor="middle" font-size="13.5" font-weight="600" fill="#0A1628">Human attestation</text>
+    <text x="655" y="131" text-anchor="middle" font-size="11.5" fill="#5B6B7B">Gate 3 · named reviewer</text>
+    <line x1="574" y1="146" x2="736" y2="146" stroke="#00D4FF" stroke-width="1.5"/>
+    <text x="655" y="166" text-anchor="middle" font-size="11" fill="#0A1628">fails by:</text>
+    <text x="655" y="183" text-anchor="middle" font-size="11" fill="#5B6B7B">missing what neither</text>
+    <text x="655" y="197" text-anchor="middle" font-size="11" fill="#5B6B7B">machine was scoped to see</text>
+  </g>
+
+  <!-- Converging arrows -->
+  <path d="M145,204 C145,250 380,250 392,286" fill="none" stroke="#00D4FF" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M400,204 L400,286" fill="none" stroke="#00D4FF" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M655,204 C655,250 420,250 408,286" fill="none" stroke="#00D4FF" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Defensible evidence node -->
+  <rect x="280" y="292" width="240" height="60" rx="12" fill="#FFFFFF" stroke="#5DFFC7" stroke-width="2.5"/>
+  <text x="400" y="318" text-anchor="middle" font-size="14.5" font-weight="600" fill="#0A1628">Defensible evidence</text>
+  <text x="400" y="338" text-anchor="middle" font-size="11.5" fill="#5B6B7B">errors unlikely to share a common cause</text>
+
+  <!-- Contrasting callout: confidence score self-loop -->
+  <rect x="250" y="392" width="300" height="70" rx="10" fill="#FFFFFF" stroke="#5B6B7B" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="400" y="416" text-anchor="middle" font-size="13" font-weight="600" fill="#5B6B7B">Confidence score (contrast)</text>
+  <text x="400" y="434" text-anchor="middle" font-size="11" fill="#5B6B7B">the model grading its own work —</text>
+  <text x="400" y="449" text-anchor="middle" font-size="11" fill="#5B6B7B">correlated; inherits the output's blind spots</text>
+  <path d="M250,427 C214,427 214,405 246,405" fill="none" stroke="#5B6B7B" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrowMuted)"/>
+</svg>
