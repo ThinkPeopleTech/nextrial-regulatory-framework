@@ -1,5 +1,12 @@
 # Validation Test Harness — Reference Test Cases v1.0
 
+> Superseded by v3.0. Retained for historical reference.
+> See [test-harness-v3.md](test-harness-v3.md) — the v3.0 harness validates the
+> eight-property proof certificate against the JSON Schema plus cross-property
+> rules, with a runnable checker (`validate.py`), runner (`run_tests.py`), and
+> real fixtures. The v1.0 cases below reflect the superseded four-property /
+> adapter model and three attestation levels.
+
 **Repository:** nextrial-regulatory-framework  
 **Document:** validation/TEST-HARNESS-001  
 **Version:** 1.0  
