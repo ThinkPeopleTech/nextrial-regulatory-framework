@@ -1,0 +1,6 @@
+name = "ProofCertificate"
+version = "3.0.0"
+defaultTargets = ["ProofCertificate"]
+
+[[lean_lib]]
+name = "ProofCertificate"
