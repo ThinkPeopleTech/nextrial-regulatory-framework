@@ -58,7 +58,7 @@ EOF
 
 echo "✓ LICENSE created (stub — replace with full Apache 2.0 text)"
 
-# BOUNDARY.md — stub (Alex Lee review required before content)
+# BOUNDARY.md — stub
 cat > BOUNDARY.md << 'EOF'
 # BOUNDARY.md — Open Standard vs. Protected Implementation
 
@@ -481,7 +481,6 @@ echo "  → lean4/proof-properties-v1.md"
 echo "  → lean4/type-definitions-v1.lean"
 echo ""
 echo "  PENDING REVIEW / FUTURE:"
-echo "  → BOUNDARY.md (Alex Lee review required)"
 echo "  → LICENSE (replace stub with full Apache 2.0 text)"
 echo "  → co-development/dominique-critique-response.md"
 echo "  → co-development/working-session-findings.md (post May 14)"
